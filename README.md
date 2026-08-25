@@ -8,7 +8,7 @@ The same few sources keep resurfacing in most writing about AI agents. This page
 
 The order runs from the immediately useful to the foundational, then to production, and finally to reference material. The engineering guides from Anthropic and OpenAI define how agents are designed in practice and give the vocabulary to build with. The harness is everything around the model that makes it useful, from tools and memory to orchestration and verification. The term _harness engineering_ appeared in 2026, and the discipline builds on the guides' language.
 
-A few years of concentrated research produced the underlying ideas. The range runs from reasoning and self-improvement to tool use, the agent-computer interface (the boundary through which an agent perceives and acts on a computer), memory, lifelong learning, and multi-agent collaboration. The model papers behind those ideas describe the capabilities that agents depend on. Governance documents become essential the moment agents connect to production systems. Protocols connect agents to the outside world, and a few books give the field a durable foundation.
+A few years of concentrated research produced the underlying ideas. The range runs from reasoning and self-improvement to tool use, the agent-computer interface (the boundary through which an agent perceives and acts on a computer), memory, lifelong learning, and multi-agent collaboration. The model papers behind those ideas describe the capabilities that agents depend on. Governance documents become essential the moment agents connect to production systems. Protocols connect agents to the outside world—to tools, data, codebases, and packaged expertise—and a few books give the field a durable foundation.
 
 > [!NOTE]
 > Compiled with AI assistance and reviewed by the author, [@edsvo](https://github.com/edsvo). Verify claims against the linked sources before relying on them.
@@ -217,7 +217,7 @@ _Guanzhi Wang et al., NVIDIA, Caltech, and UT Austin, Transactions on Machine Le
 
 Guanzhi Wang et al.'s [Voyager][voyager] is the first LLM-powered embodied lifelong learning agent. It operates in Minecraft and combines an automatic curriculum, a growing skill library of executable code, and iterative prompting with environment feedback. It collects 3.3 times as many unique items and reaches tech tree milestones up to 15.3 times faster than prior state of the art.
 
-It's the source for lifelong learning and skill libraries, the pattern that carries agent capabilities across sessions.
+It's the source for lifelong learning and skill libraries, the pattern that carries agent capabilities across sessions, now industrialized as packaged Agent Skills.
 
 ### CAMEL
 
@@ -349,7 +349,7 @@ It documents the guardrails already built into the model layer, before any agent
 
 ## Protocols and standards
 
-Two standards give agents access to the world beyond their context window. The Model Context Protocol standardizes how an assistant connects to tools and data. The `AGENTS.md` file defines how a coding agent learns what a codebase requires. Where the safety section governs what agents can do, these two define how agents connect. Together they provide a shared interface for agent integration.
+Three standards give agents access to the world beyond their context window. The Model Context Protocol standardizes how an assistant connects to tools and data. The `AGENTS.md` file defines how a coding agent learns what a codebase requires. Agent Skills define how reusable expertise is packaged so any agent can load and apply it. Where the safety section governs what agents can do, these three define how agents connect. Together they provide a shared interface for agent integration.
 
 ### Model Context Protocol
 
@@ -357,7 +357,7 @@ _Anthropic, November 2024._
 
 Anthropic's [Model Context Protocol][mcp] is the open protocol that standardizes how assistants connect to tools, data sources, and services. It uses a client-server architecture. It has become the standard for agent-tool integration, adopted by OpenAI, Google, and major integrated development environments _(IDEs)_. The specification defines transports, resource templates, tool annotations, and security boundaries.
 
-It's the closest thing agent integration has to a common protocol. Ecosystem adoption makes it the primary way agents reach the outside world.
+It's widely treated as the closest thing agent integration has to a common protocol. Ecosystem adoption makes it the primary way agents reach the outside world.
 
 ### The AGENTS.md file
 
@@ -367,9 +367,19 @@ The [`AGENTS.md` file][agents-md] is a lightweight convention for repository-lev
 
 It's the emerging convention for telling an agent how a specific codebase works, the file that makes those instructions discoverable to agents.
 
+### Equipping agents for the real world with Agent Skills
+
+_Barry Zhang, Keith Lazuka, and Mahesh Murag, Anthropic, October 2025._
+
+Anthropic's [Equipping agents for the real world with Agent Skills][agent-skills] introduces _Agent Skills_: folders of instructions, scripts, and resources that an agent discovers and loads on demand. A skill centers on a `SKILL.md` file whose frontmatter carries a name and description. The format rests on progressive disclosure: metadata loads at startup, the body loads when a task triggers the skill, and bundled references and executable scripts load only as needed. Scripts offload deterministic work from token generation to code. In December 2025, Anthropic published the format as an open standard at [agentskills.io][skills-spec].
+
+The post is also the entry point to the craft of building skills. The standard ships its own [authoring guidance][skills-creation], and Anthropic's [Skill authoring best practices][skill-authoring] is the working reference practitioners consult when writing skills that trigger reliably and stay within context budgets. Their discipline matches the preceding engineering guides: start from evaluation, structure for scale, and iterate against how the agent actually uses the skill. Anthropic's `skill-creator` tooling extends the same rigor to skill authoring, adding testing and benchmarking for skills.
+
+The day the post appeared, Simon Willison wrote in [Claude Skills are awesome, maybe a bigger deal than MCP][willison-skills] that skills' simplicity outsources the hard parts to the model and its harness. When the standard was published, OpenAI and Microsoft adopted it within days, and by mid-2026 roughly forty platforms supported it, from Codex CLI and GitHub Copilot to Gemini CLI and Cursor. Skills join MCP and `AGENTS.md` as the field's shared interfaces—the way reusable capability itself became portable.
+
 ## The books
 
-If the papers give the field its immediate ideas, these two books give it a durable foundation. _AI Engineering_ is the practitioner's guide to the full lifecycle of building and running these systems, and it's among the most recommended books in the field. _Artificial Intelligence: A Modern Approach_ is the definitive textbook, where the concepts that agents build on get their rigorous treatment. One is for building, the other for understanding. Both outlast any single generation of tools.
+If the papers give the field its immediate ideas, these two books give it a durable foundation. _AI Engineering_ is the practitioner's guide to the full lifecycle of building and running these systems, and it's among the most recommended books in the field. _Artificial Intelligence: A Modern Approach_ is widely considered the definitive textbook, where the concepts that agents build on get their rigorous treatment. One is for building, the other for understanding. Both outlast any single generation of tools.
 
 ### AI Engineering
 
@@ -377,7 +387,7 @@ _Chip Huyen, O'Reilly, 2025._
 
 Chip Huyen's [AI Engineering][huyen-ai] is a comprehensive guide to the full lifecycle of production AI systems. It covers data curation, model selection, evaluation, deployment, monitoring, and continual learning. It has strong coverage of prompt engineering, retrieval-augmented generation, agent architectures, and the metrics that matter for agentic systems.
 
-It's the LLM-era successor to the classic systems texts.
+It's widely regarded as the LLM-era successor to the classic systems texts.
 
 ### Artificial Intelligence: A Modern Approach
 
@@ -385,7 +395,7 @@ _Stuart Russell and Peter Norvig, fourth edition, 2020, Pearson._
 
 Stuart Russell and Peter Norvig's [Artificial Intelligence: A Modern Approach][aima] is the authoritative AI textbook. It covers search, planning, knowledge representation, probabilistic reasoning, reinforcement learning, and natural language processing. The chapters on search, planning, and multi-agent systems remain directly relevant to agent architecture.
 
-It's the foundation for the concepts agents build on. If one book anchors the field, this is it.
+It's the foundation for the concepts agents build on, and it's among the books most often cited as anchoring the field.
 
 ## References
 
@@ -433,6 +443,11 @@ It's the foundation for the concepts agents build on. If one book anchors the fi
 [model-spec]: https://model-spec.openai.com/ "Model Spec"
 [mcp]: https://modelcontextprotocol.io/specification "Model Context Protocol Specification"
 [agents-md]: https://agents.md/ "AGENTS.md"
+[agent-skills]: https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills "Equipping agents for the real world with Agent Skills"
+[skills-spec]: https://agentskills.io/specification "Agent Skills Specification"
+[skills-creation]: https://agentskills.io/skill-creation/best-practices "Best practices for skill creators"
+[skill-authoring]: https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices "Skill authoring best practices"
+[willison-skills]: https://simonwillison.net/2025/Oct/16/claude-skills/ "Claude Skills are awesome, maybe a bigger deal than MCP"
 [huyen-ai]: https://www.oreilly.com/library/view/ai-engineering/9781098166298/ "AI Engineering"
 [aima]: https://aima.cs.berkeley.edu/ "Artificial Intelligence: A Modern Approach"
 
