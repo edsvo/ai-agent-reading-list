@@ -4,7 +4,7 @@ _A curated reading list for AI agents._
 
 Last reviewed August 2026.
 
-The same few sources keep resurfacing in most writing about AI agents. This page collects the sources cited most often and relied on most. It groups them by what each contributes and notes how well regarded each is.
+The same few sources keep resurfacing in most writing about AI agents. This page collects the sources cited most often and relied on most, grouped by what each contributes. Each entry notes how the source was received: who endorses it, where the endorsement is qualified, and where the strongest objections come from.
 
 The order runs from the immediately useful to the foundational, then to production, and finally to reference material. The engineering guides from Anthropic and OpenAI define how agents are designed in practice and give the vocabulary to build with. The harness is everything around the model that makes it useful, from tools and memory to orchestration and verification. The term _harness engineering_ appeared in 2026, and the discipline builds on the guides' language.
 
@@ -421,6 +421,10 @@ Stuart Russell and Peter Norvig's [Artificial Intelligence: A Modern Approach][a
 
 It's the foundation for the concepts agents build on, and it's among the books most often cited as anchoring the field.
 
+## A note on the selection
+
+The sources collected here are not idiosyncratic. Stanford's [Engineering AI Agents][cs329z] course assigns a dozen of them, and UC Berkeley's [Large Language Model Agents][berkeley-mooc] massive open online course _(MOOC)_ assigns five of them across its tool-use, coding, multi-agent, and safety weeks.
+
 ## References
 
 [anthropic-agents]: https://www.anthropic.com/engineering/building-effective-agents "Building Effective Agents"
@@ -477,6 +481,8 @@ It's the foundation for the concepts agents build on, and it's among the books m
 [willison-skills]: https://simonwillison.net/2025/Oct/16/claude-skills/ "Claude Skills are awesome, maybe a bigger deal than MCP"
 [huyen-ai]: https://www.oreilly.com/library/view/ai-engineering/9781098166298/ "AI Engineering"
 [aima]: https://aima.cs.berkeley.edu/ "Artificial Intelligence: A Modern Approach"
+[cs329z]: https://cs329z.stanford.edu/ "Engineering AI Agents"
+[berkeley-mooc]: https://llmagents-learning.org/f24 "Large Language Model Agents"
 
 ## License
 
