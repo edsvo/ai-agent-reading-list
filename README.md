@@ -211,6 +211,14 @@ Joon Sung Park et al.'s [Generative Agents][gen-agents] is a landmark simulation
 
 The architecture it names appears in most long-horizon agent products, and the paper remains central to work on agent memory.
 
+### MemGPT
+
+_Charles Packer et al., University of California, Berkeley, October 2023._
+
+Charles Packer et al.'s [MemGPT][memgpt] imports virtual memory from operating systems. The context window acts as main memory, and the agent pages information to external storage through self-directed function calls, so a fixed-context model behaves as if its memory were unbounded. Interrupts manage control flow between the agent and the user. On document analysis and multi-session chat, the design sustains interaction far beyond the underlying window.
+
+The paper is widely treated as the canonical source on agent memory management, and its system lives on as the Letta platform.
+
 ### Voyager
 
 _Guanzhi Wang et al., NVIDIA, Caltech, and UT Austin, Transactions on Machine Learning Research, 2024._
@@ -295,6 +303,14 @@ Xuezhi Wang et al.'s [Self-Consistency][self-consistency] improves chain-of-thou
 
 It remains the key source on sampling-based verification, a core technique in evaluator and judge patterns.
 
+### DeepSeek-R1
+
+_DeepSeek-AI, January 2025._
+
+DeepSeek-AI's [DeepSeek-R1][deepseek-r1] shows that reinforcement learning alone can produce reasoning. Its first experiment, DeepSeek-R1-Zero, trains a base model with no labeled examples, and behaviors such as verification, reflection, and backtracking emerge on their own. The released model adds a small cold-start dataset and a multi-stage pipeline. It matches OpenAI's o1 on math, code, and general reasoning benchmarks, scoring 79.8% `pass@1` on AIME 2024 against o1's 79.2%.
+
+The open weights and distillation recipe seeded the wave of open reasoning models that followed, turning trained reasoning into a standard layer beneath agent harnesses.
+
 ### Retrieval-Augmented Generation
 
 _Patrick Lewis et al., Meta AI, NeurIPS 2020._
@@ -349,7 +365,7 @@ It documents the guardrails already built into the model layer, before any agent
 
 ## Protocols and standards
 
-Three standards give agents access to the world beyond their context window. The Model Context Protocol standardizes how an assistant connects to tools and data. The `AGENTS.md` file defines how a coding agent learns what a codebase requires. Agent Skills define how reusable expertise is packaged so any agent can load and apply it. Where the safety section governs what agents can do, these three define how agents connect. Together they provide a shared interface for agent integration.
+Four standards give agents access to the world beyond their context window. The Model Context Protocol standardizes how an assistant connects to tools and data. The Agent2Agent Protocol standardizes how independent agents discover and coordinate with each other. The `AGENTS.md` file defines how a coding agent learns what a codebase requires. Agent Skills define how reusable expertise is packaged so any agent can load and apply it. Where the safety section governs what agents can do, these four define how agents connect. Together they provide a shared interface for agent integration.
 
 ### Model Context Protocol
 
@@ -358,6 +374,14 @@ _Anthropic, November 2024._
 Anthropic's [Model Context Protocol][mcp] is the open protocol that standardizes how assistants connect to tools, data sources, and services. It uses a client-server architecture. It has become the standard for agent-tool integration, adopted by OpenAI, Google, and major integrated development environments _(IDEs)_. The specification defines transports, resource templates, tool annotations, and security boundaries.
 
 It's widely treated as the closest thing agent integration has to a common protocol. Ecosystem adoption makes it the primary way agents reach the outside world.
+
+### Agent2Agent Protocol
+
+_Google, April 2025._
+
+Google's [Agent2Agent Protocol][a2a] is an open protocol for communication between independent agents. Each agent publishes an _Agent Card_, a machine-readable description of its skills and endpoints, and client agents delegate tasks through a defined lifecycle with streaming updates. It launched with more than fifty partners and has since drawn support from more than a hundred companies.
+
+In June 2025, Google donated the protocol to the Linux Foundation, where Amazon Web Services, Cisco, Microsoft, Salesforce, SAP, and ServiceNow steward it under neutral governance. It fills the layer MCP does not: where MCP connects an agent to tools and data, A2A lets agents discover each other and hand work across frameworks and organizational boundaries.
 
 ### The AGENTS.md file
 
@@ -425,6 +449,7 @@ It's the foundation for the concepts agents build on, and it's among the books m
 [toolformer]: https://arxiv.org/abs/2302.04761 "Toolformer: Language Models Can Teach Themselves to Use Tools"
 [swe-agent]: https://arxiv.org/abs/2405.15793 "SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering"
 [gen-agents]: https://arxiv.org/abs/2304.03442 "Generative Agents: Interactive Simulacra of Human Behavior"
+[memgpt]: https://arxiv.org/abs/2310.08560 "MemGPT: Towards LLMs as Operating Systems"
 [voyager]: https://arxiv.org/abs/2305.16291 "Voyager: An Open-Ended Embodied Agent with Large Language Models"
 [camel]: https://arxiv.org/abs/2303.17760 "CAMEL: Communicative Agents for 'Mind' Exploration of Large Language Model Society"
 [autogen]: https://arxiv.org/abs/2308.08155 "AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation"
@@ -435,6 +460,7 @@ It's the foundation for the concepts agents build on, and it's among the books m
 [constitutional-ai]: https://arxiv.org/abs/2212.08073 "Constitutional AI: Harmlessness from AI Feedback"
 [cot]: https://arxiv.org/abs/2201.11903 "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models"
 [self-consistency]: https://arxiv.org/abs/2203.11171 "Self-Consistency Improves Chain of Thought Reasoning in Language Models"
+[deepseek-r1]: https://arxiv.org/abs/2501.12948 "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning"
 [rag]: https://arxiv.org/abs/2005.11401 "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks"
 [pal]: https://arxiv.org/abs/2211.10435 "Program-Aided Language Models"
 [openai-governance]: https://openai.com/index/practices-for-governing-agentic-ai-systems/ "Practices for Governing Agentic AI Systems"
@@ -442,6 +468,7 @@ It's the foundation for the concepts agents build on, and it's among the books m
 [anthropic-rsp]: https://www.anthropic.com/responsible-scaling-policy "Responsible Scaling Policy"
 [model-spec]: https://model-spec.openai.com/ "Model Spec"
 [mcp]: https://modelcontextprotocol.io/specification "Model Context Protocol Specification"
+[a2a]: https://a2a-protocol.org "Agent2Agent Protocol"
 [agents-md]: https://agents.md/ "AGENTS.md"
 [agent-skills]: https://www.anthropic.com/engineering/equipping-agents-for-the-real-world-with-agent-skills "Equipping agents for the real world with Agent Skills"
 [skills-spec]: https://agentskills.io/specification "Agent Skills Specification"
