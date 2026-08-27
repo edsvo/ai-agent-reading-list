@@ -6,7 +6,7 @@ Last reviewed August 2026.
 
 The same few sources keep resurfacing in most writing about AI agents. This page collects the sources cited most often and relied on most, grouped by what each contributes. Each entry notes how the source was received: who endorses it, where the endorsement is qualified, and where the strongest objections come from.
 
-The order runs from the immediately useful to the foundational, then to production, and finally to reference material. The engineering guides from Anthropic and OpenAI define how agents are designed in practice and give the vocabulary to build with. The harness is everything around the model that makes it useful, from tools and memory to orchestration and verification. The term _harness engineering_ appeared in 2026, and the discipline builds on the guides' language.
+The order runs from the immediately useful to the foundational, then to production, and finally to reference material. The engineering guides from Anthropic and OpenAI define how agents are designed in practice and give the vocabulary to build with. The harness is everything around the model that makes it useful, from tools and memory to orchestration and verification. The term _harness engineering_ appeared in 2026. The discipline builds on the guides' language.
 
 A few years of concentrated research produced the underlying ideas. The range runs from reasoning and self-improvement to tool use, the agent-computer interface (the boundary through which an agent perceives and acts on a computer), memory, lifelong learning, and multi-agent collaboration. The model papers behind those ideas describe the capabilities that agents depend on. Governance documents become essential the moment agents connect to production systems. Protocols connect agents to the outside world—to tools, data, codebases, and packaged expertise—and a few books give the field a durable foundation.
 
@@ -67,7 +67,7 @@ _Walden Yan, Cognition, June 2025._
 
 Cognition's [Don't Build Multi-Agents][dont-build-multi-agents] makes the dissenting case against multi-agent architectures. Walden Yan argues for a single-threaded agent with fully shared context. Multi-agent systems spread decision-making across isolated contexts, so conflicting assumptions compound. The case is grounded in Devin, the coding agent Cognition builds, where write operations share state. It is the territory Anthropic's own multi-agent post flags as a poor fit.
 
-The dissent is taken seriously but read as workload-specific. Cognition later softened the sharp version, reporting that narrow multi-agent patterns work when additional agents contribute intelligence rather than actions.
+The dissent is taken seriously but read as workload-specific.
 
 ### Related reading
 
@@ -365,7 +365,7 @@ It documents the guardrails already built into the model layer, before any agent
 
 ## Protocols and standards
 
-Four standards give agents access to the world beyond their context window. The Model Context Protocol standardizes how an assistant connects to tools and data. The Agent2Agent Protocol standardizes how independent agents discover and coordinate with each other. The `AGENTS.md` file defines how a coding agent learns what a codebase requires. Agent Skills define how reusable expertise is packaged so any agent can load and apply it. Where the safety section governs what agents can do, these four define how agents connect. Together they provide a shared interface for agent integration.
+Four standards and one framework give agents access to the world beyond their context window. The Model Context Protocol standardizes how an assistant connects to tools and data. The Agent2Agent Protocol standardizes how independent agents discover and coordinate with each other. The `AGENTS.md` file defines how a coding agent learns what a codebase requires. Agent Skills define how reusable expertise is packaged so any agent can load and apply it. DSPy replaces hand-crafted prompt templates with a programming model and compiler that optimizes agent pipelines automatically. Where the safety section governs what agents can do, these define how agents connect. Together they provide a shared interface for agent integration.
 
 ### Model Context Protocol
 
@@ -389,7 +389,7 @@ _OpenAI, August 2025._
 
 The [`AGENTS.md` file][agents-md] is a lightweight convention for repository-level instructions that coding agents can discover and follow. It covers conventions, architecture decisions, testing requirements, and workflows. It's supported by Claude Code, Cursor, Windsurf, and other agentic coding tools.
 
-It's the emerging convention for telling an agent how a specific codebase works, the file that makes those instructions discoverable to agents.
+It's the convention for telling an agent how a specific codebase works, the file that makes those instructions discoverable to agents.
 
 ### Equipping agents for the real world with Agent Skills
 
@@ -400,6 +400,14 @@ Anthropic's [Equipping agents for the real world with Agent Skills][agent-skills
 The post is also the entry point to the craft of building skills. The standard ships its own [authoring guidance][skills-creation], and Anthropic's [Skill authoring best practices][skill-authoring] is the working reference practitioners consult when writing skills that trigger reliably and stay within context budgets. Their discipline matches the preceding engineering guides: start from evaluation, structure for scale, and iterate against how the agent actually uses the skill. Anthropic's `skill-creator` tooling extends the same rigor to skill authoring, adding testing and benchmarking for skills.
 
 The day the post appeared, Simon Willison wrote in [Claude Skills are awesome, maybe a bigger deal than MCP][willison-skills] that skills' simplicity outsources the hard parts to the model and its harness. When the standard was published, OpenAI and Microsoft adopted it within days, and by mid-2026 roughly forty platforms supported it, from Codex CLI and GitHub Copilot to Gemini CLI and Cursor. Skills join MCP and `AGENTS.md` as the field's shared interfaces—the way reusable capability itself became portable.
+
+### DSPy
+
+_Omar Khattab et al., Stanford NLP, October 2023; ICLR 2024._
+
+[DSPy][dspy] is a programming model that replaces hand-crafted prompt templates with declarative modules and a compiler that optimizes entire pipelines automatically. A DSPy program declares signatures (input-output behavior), composes them into modules (analogous to neural network layers), and uses teleprompters (optimizers) to tune prompts and few-shot examples against a metric. Within minutes of compiling, a few lines of DSPy outperform standard few-shot prompting by over 25% on GPT-3.5 and by 65% on Llama-2-13b, and beat pipelines built with expert-created demonstrations by up to 46%. The framework has grown into a broad ecosystem covering RAG pipelines, agent loops, and information extraction.
+
+It's the most-cited source on systematic pipeline optimization, and its programming-not-prompting model has become the standard approach for building maintainable agent systems. DSPy is the source of the idea that prompt engineering should be replaced by compilation, the same instinct behind the harness discipline's emphasis on tooling over hand-tuned prompts.
 
 ## The books
 
@@ -465,6 +473,7 @@ The sources collected here are not idiosyncratic. Stanford's [Engineering AI Age
 [cot]: https://arxiv.org/abs/2201.11903 "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models"
 [self-consistency]: https://arxiv.org/abs/2203.11171 "Self-Consistency Improves Chain of Thought Reasoning in Language Models"
 [deepseek-r1]: https://arxiv.org/abs/2501.12948 "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning"
+[dspy]: https://arxiv.org/abs/2310.03714 "DSPy: Compiling Declarative Language Model Calls into Self-Improving Pipelines"
 [rag]: https://arxiv.org/abs/2005.11401 "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks"
 [pal]: https://arxiv.org/abs/2211.10435 "Program-Aided Language Models"
 [openai-governance]: https://openai.com/index/practices-for-governing-agentic-ai-systems/ "Practices for Governing Agentic AI Systems"
