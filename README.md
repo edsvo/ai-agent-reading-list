@@ -167,7 +167,7 @@ _Lilian Weng, June 2023._
 
 Lilian Weng's [LLM Powered Autonomous Agents][weng] is one of the field's best-known overviews of agent architecture. Weng frames an agent as an LLM core with three surrounding components: planning, memory, and tool use. Planning covers subgoal decomposition and reflection. Memory covers short-term context and long-term stores. Tool use covers external APIs and code execution. She shows how each component was assembled from earlier research. Written while she was at OpenAI, it's where most engineers begin.
 
-The framing it named—planning, memory, and tool use—has become the field's shared vocabulary.
+The framing it named—planning, memory, and tool use—became the field's common vocabulary.
 
 ### A Survey on LLM-based Autonomous Agents
 
