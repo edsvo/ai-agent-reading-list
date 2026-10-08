@@ -387,7 +387,7 @@ It documents the guardrails already built into the model layer, before any agent
 
 ## Protocols and standards
 
-Four standards define how agents reach the world beyond their context window, and one framework optimizes what happens once they get there. The Model Context Protocol standardizes how an assistant connects to tools and data. The Agent2Agent Protocol standardizes how independent agents discover and coordinate with each other. The `AGENTS.md` file defines how a coding agent learns what a codebase requires. Agent Skills define how reusable expertise is packaged so any agent can load and apply it. DSPy, which predates all four standards by more than a year, replaces hand-crafted prompt templates with a programming model and compiler that optimizes agent pipelines automatically. Where the safety section governs what agents can do, the standards define how agents connect. Together they give the field a shared interface for agent integration.
+Four standards define how agents reach the world beyond their context window, and one framework optimizes what happens once they get there. The Model Context Protocol standardizes how an assistant connects to tools and data. The Agent2Agent Protocol standardizes how independent agents discover and coordinate with each other. The `AGENTS.md` file defines how a coding agent learns what a codebase requires. Agent Skills define how reusable expertise is packaged so any agent can load and apply it. DSPy predates all four standards by more than a year. It replaces hand-crafted prompt templates with a programming model and compiler that optimizes agent pipelines automatically. Where the safety section governs what agents can do, the standards define how agents connect. Together they give the field a shared interface for agent integration.
 
 ### Model Context Protocol
 
@@ -403,7 +403,7 @@ _Google, April 2025._
 
 Google's [Agent2Agent Protocol][a2a] is an open protocol for communication between independent agents. Each agent publishes an _Agent Card_, a machine-readable description of its skills and endpoints, and client agents delegate tasks through a defined lifecycle with streaming updates. It launched with more than fifty partners and has since drawn support from more than 150 organizations.
 
-In June 2025, Google donated the protocol to the Linux Foundation, where Amazon Web Services, Cisco, Microsoft, Salesforce, SAP, and ServiceNow steward it under neutral governance. The protocol reached a stable v1.0 in March 2026. In August 2026 it joined the Agentic AI Foundation, directed by the Linux Foundation, as a Growth Stage project alongside the Model Context Protocol and `AGENTS.md`. It fills the layer MCP does not: where MCP connects an agent to tools and data, A2A lets agents discover each other and hand work across frameworks and organizational boundaries.
+In June 2025, Google donated the protocol to the Linux Foundation, where Amazon Web Services, Cisco, Microsoft, Salesforce, SAP, and ServiceNow steward it under neutral governance. The protocol reached a stable v1.0 in March 2026. In August 2026 it joined the Agentic AI Foundation as a Growth Stage project alongside the Model Context Protocol and `AGENTS.md`. It fills the layer MCP does not: where MCP connects an agent to tools and data, A2A lets agents discover each other and hand work across frameworks and organizational boundaries.
 
 ### The AGENTS.md file
 
