@@ -61,9 +61,9 @@ The post is among the most frequently cited production evidence for multi-agent 
 
 _Prithvi Rajasekaran et al., Anthropic, September 2025._
 
-Anthropic's [Effective context engineering for AI agents][context-engineering] introduces _context engineering_: curating and maintaining the tokens that enter an LLM's context window. It builds directly on the Building Effective Agents taxonomy, arguing that context, not prompt wording, is the primary way to steer agent behavior. It treats context as a finite resource subject to context rot, the decline in response quality as the window fills. It lays out the long-horizon techniques the harness section builds on: compaction (condensing older context), structured note-taking, and subagents that isolate context.
+Anthropic's [Effective context engineering for AI agents][context-engineering] develops _context engineering_: curating and maintaining the tokens that enter an LLM's context window. It builds directly on the Building Effective Agents taxonomy, arguing that context, not prompt wording, is the primary way to steer agent behavior. It treats context as a finite resource subject to context rot, the decline in response quality as the window fills. It lays out the long-horizon techniques the harness section builds on: compaction (condensing older context), structured note-taking, and subagents that isolate context.
 
-The post popularized the term and is the source of the context-management vocabulary—compaction, context rot, just-in-time retrieval—that later agent writing borrows.
+The term predates the post. Walden Yan named it in [Don't Build Multi-Agents][dont-build-multi-agents] three months earlier, and Tobi Lütke and Lance Martin carried it in the weeks that followed. Anthropic's post is what made it common vocabulary. It is the source of the context-management vocabulary—compaction, context rot, just-in-time retrieval—that later agent writing borrows.
 
 ### Four AI Agent Strategies That Improve GPT-4 and GPT-3.5 Performance
 
@@ -79,7 +79,7 @@ _Walden Yan, Cognition, June 2025._
 
 Cognition's [Don't Build Multi-Agents][dont-build-multi-agents] makes the dissenting case against multi-agent architectures. Walden Yan argues for a single-threaded agent with fully shared context. Multi-agent systems spread decision-making across isolated contexts, so conflicting assumptions compound. The case is grounded in Devin, the coding agent Cognition builds, where write operations share state.
 
-The dissent is taken seriously but read as workload-specific.
+Anthropic's multi-agent post came out the next day, which Yan noted as coincidental. The dissent is taken seriously but read as workload-specific. Yan returned to it ten months later in [Multi-Agents: What's Actually Working][multi-agents-working], reporting that Cognition had begun deploying multi-agent systems that work. He kept the objection to parallel writers and narrowed the claim. The patterns that work are ones where multiple agents contribute intelligence while writes stay single-threaded. Most real-world multi-agent setups, he reports, are limited to read-only subagents that resemble tool calls rather than genuine collaboration.
 
 ### Supporting artifacts
 
@@ -175,7 +175,7 @@ _Lei Wang et al., Frontiers of Computer Science, 2024._
 
 Lei Wang et al.'s [A Survey on LLM-based Autonomous Agents][survey] is one of the most-cited surveys of the field. It organizes agents into construction, application, and evaluation. It catalogs how agents are built: reasoning, memory, planning, tool use, and multi-agent collaboration. It also catalogs where they are deployed. Together they give a complete picture of the design space in one place.
 
-The survey is the starting point for a structured overview of the field.
+The survey has drawn more than two thousand citations and was still being revised two years after publication. Its construction, application, and evaluation split has become a common way to organize the literature on agents.
 
 ### ReAct
 
@@ -441,7 +441,7 @@ _Chip Huyen, O'Reilly, December 2024._
 
 Chip Huyen's [AI Engineering][huyen-ai] is a comprehensive guide to the full lifecycle of production AI systems. It covers data curation, model selection, evaluation, deployment, monitoring, and continual learning. It has strong coverage of prompt engineering, retrieval-augmented generation, agent architectures, and the metrics that matter for agentic systems.
 
-It's widely regarded as the LLM-era successor to the classic systems texts.
+It was the most read book on the O'Reilly platform in 2025, according to the author.
 
 ### Artificial Intelligence: A Modern Approach
 
@@ -465,6 +465,7 @@ The sources collected here are not idiosyncratic. Stanford's [Engineering AI Age
 [context-engineering]: https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents "Effective context engineering for AI agents"
 [ng-four-strategies]: https://www.deeplearning.ai/the-batch/how-agents-can-improve-llm-performance "Four AI Agent Strategies That Improve GPT-4 and GPT-3.5 Performance"
 [dont-build-multi-agents]: https://cognition.com/blog/dont-build-multi-agents "Don't Build Multi-Agents"
+[multi-agents-working]: https://cognition.com/blog/multi-agents-working "Multi-Agents: What's Actually Working"
 [agents-cookbook]: https://github.com/anthropics/claude-cookbooks/tree/main/patterns/agents "Building Effective Agents Cookbook"
 [agents-whitepaper]: https://resources.anthropic.com/hubfs/Building%20Effective%20AI%20Agents-%20Architecture%20Patterns%20and%20Implementation%20Frameworks.pdf "Building Effective AI Agents: Architecture Patterns and Implementation Frameworks"
 [12-factor-agents]: https://github.com/humanlayer/12-factor-agents "12 Factor Agents"
