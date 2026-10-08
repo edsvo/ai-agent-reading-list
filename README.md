@@ -83,7 +83,7 @@ Anthropic's multi-agent post came out the next day, which Yan noted as coinciden
 
 ### Supporting artifacts
 
-The preceding entries stake out the main positions on multi-agent design. Four supporting artifacts fill out the design space. The [Building Effective Agents Cookbook][agents-cookbook] holds minimal reference implementations of the workflows the Anthropic post describes. A white paper, [Building Effective AI Agents: Architecture Patterns and Implementation Frameworks][agents-whitepaper], repackages the same ideas for enterprise audiences, with customer case studies from Coinbase, Intercom, and Thomson Reuters. Dexter Horthy's [12 Factor Agents][12-factor-agents] turns the single-threaded preference into a practical checklist, and LlamaIndex packages it as an [interactive guide][12-factors-llamaindex].
+The preceding entries stake out the main positions on multi-agent design. Four supporting artifacts fill out the design space. The [Building Effective Agents Cookbook][agents-cookbook] holds minimal reference implementations of the workflows the Anthropic post describes. A white paper, [Building Effective AI Agents: Architecture Patterns and Implementation Frameworks][agents-whitepaper], repackages the same ideas for enterprise audiences, with customer case studies from Coinbase, Intercom, and Thomson Reuters. Dexter Horthy's [12 Factor Agents][12-factor-agents] turns the single-threaded preference into a practical checklist, and LlamaIndex packages it as an [interactive guide][12-factors-llamaindex]. One artifact reaches past that space entirely. [Omarchy][omarchy], David Heinemeier Hansson's Linux distribution, takes the environment-as-harness idea down to the operating system: disposable, opinionated, and configured for coding agents on first boot. It drew 44,000 GitHub stars in its first year. DHH's premise is that if you can vibe-code any app, you should be able to vibe-code your operating system.
 
 ## The harness
 
@@ -470,6 +470,7 @@ The sources collected here are not idiosyncratic. Stanford's [Engineering AI Age
 [agents-whitepaper]: https://resources.anthropic.com/hubfs/Building%20Effective%20AI%20Agents-%20Architecture%20Patterns%20and%20Implementation%20Frameworks.pdf "Building Effective AI Agents: Architecture Patterns and Implementation Frameworks"
 [12-factor-agents]: https://github.com/humanlayer/12-factor-agents "12 Factor Agents"
 [12-factors-llamaindex]: https://12factors.llamaindex.ai/ "12 Factor Agents in LlamaIndex"
+[omarchy]: https://omarchy.org/ "Omarchy"
 [hashimoto]: https://mitchellh.com/writing/my-ai-adoption-journey "My AI Adoption Journey"
 [openai-harness]: https://openai.com/index/harness-engineering/ "Harness engineering: leveraging Codex in an agent-first world"
 [anatomy]: https://www.langchain.com/blog/the-anatomy-of-an-agent-harness "The Anatomy of an Agent Harness"
