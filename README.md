@@ -393,7 +393,7 @@ Four standards define how agents reach the world beyond their context window, an
 
 _Anthropic, November 2024._
 
-Anthropic's [Model Context Protocol][mcp] is the open protocol that standardizes how assistants connect to tools, data sources, and services. It uses a client-server architecture. It has become the standard for agent-tool integration, adopted by OpenAI, Google, and major integrated development environments _(IDEs)_. The specification defines transports, resource templates, tool annotations, and security boundaries.
+Anthropic's [Model Context Protocol][mcp] is the open protocol that standardizes how assistants connect to tools, data sources, and services. It uses a client-server architecture. It has become the standard for agent-tool integration, adopted by OpenAI, Google, and major integrated development environments _(IDEs)_. Anthropic donated it to the Linux Foundation in December 2025, where it is stewarded alongside Agent2Agent. The specification defines transports, resource templates, tool annotations, and security boundaries.
 
 It's widely treated as the closest thing agent integration has to a common protocol. Ecosystem adoption makes it the primary way agents reach the outside world.
 
@@ -409,7 +409,7 @@ In June 2025, Google donated the protocol to the Linux Foundation, where Amazon 
 
 _OpenAI, August 2025._
 
-The [`AGENTS.md` file][agents-md] is a lightweight convention for repository-level instructions that coding agents can discover and follow. It covers conventions, architecture decisions, testing requirements, and workflows. It's supported by Claude Code, Cursor, Windsurf, and other agentic coding tools.
+The [`AGENTS.md` file][agents-md] is a lightweight convention for repository-level instructions that coding agents can discover and follow. It covers conventions, architecture decisions, testing requirements, and workflows. It's supported by Cursor, Windsurf, GitHub Copilot, and other agentic coding tools. Claude Code reads it too, though `CLAUDE.md` remains its native convention and direct `AGENTS.md` reading needs a recent version.
 
 It's the convention for telling an agent how a specific codebase works, the file that makes those instructions discoverable to agents.
 
