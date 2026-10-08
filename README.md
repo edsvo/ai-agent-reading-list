@@ -129,6 +129,14 @@ She introduces the working vocabulary: sensors, the architecture fitness harness
 
 It appears in Martin Fowler's _Exploring Generative AI_ series and is widely cited as the primary source for applying harness engineering to real codebases. It also warns that the harness is most needed where it's hardest to build: in legacy teams with accumulated technical debt.
 
+### LLM Wiki
+
+_Andrej Karpathy, gist.github.com, April 2026._
+
+[LLM Wiki][llm-wiki] is a pattern for building knowledge bases with an agent. Rather than retrieve raw chunks at query time, the agent compiles sources into a persistent, interlinked set of markdown files and keeps them current. Three layers: immutable raw sources, a wiki the agent owns, and a schema file that defines the structure and workflows. Three operations run against it: ingest, query, and lint. The schema is the `AGENTS.md` or `CLAUDE.md` that tells the agent how to maintain the rest. Karpathy's formulation is that Obsidian is the IDE, the LLM the programmer, and the wiki the codebase.
+
+The gist reached more than 5,000 stars and forks. Independent implementations followed in Python and Elixir. The pattern also ships as an unofficial Agent Skills skill for Claude Code, Cursor, and Codex. Commenters describe running it for client work, codebase documentation, and design automation.
+
 ### Effective harnesses for long-running agents
 
 _Anthropic, November 2025._
@@ -463,6 +471,7 @@ The sources collected here are not idiosyncratic. Stanford's [Engineering AI Age
 [openai-harness]: https://openai.com/index/harness-engineering/ "Harness engineering: leveraging Codex in an agent-first world"
 [anatomy]: https://www.langchain.com/blog/the-anatomy-of-an-agent-harness "The Anatomy of an Agent Harness"
 [fowler-harness]: https://martinfowler.com/articles/harness-engineering.html "Harness engineering for coding agent users"
+[llm-wiki]: https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f "LLM Wiki"
 [anthropic-long-running]: https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents "Effective harnesses for long-running agents"
 [anthropic-harness-design]: https://www.anthropic.com/engineering/harness-design-long-running-apps "Harness design for long-running application development"
 [weng]: https://lilianweng.github.io/posts/2023-06-23-agent/ "LLM Powered Autonomous Agents"
