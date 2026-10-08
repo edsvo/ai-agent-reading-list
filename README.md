@@ -255,7 +255,7 @@ _Guohao Li et al., King Abdullah University of Science and Technology (KAUST), N
 
 Guohao Li et al.'s [CAMEL][camel] introduces structured role-playing between an AI user and an AI assistant. It's one of the first frameworks to show multiple LLMs with specialized roles solving tasks cooperatively without continuous human intervention. It grew into the CAMEL-AI ecosystem of workforce orchestration and benchmarks.
 
-It's among the first multi-agent collaboration papers and remains one of the most cited. The role-playing pattern it introduced appears in most multi-agent frameworks.
+It's among the first multi-agent collaboration papers and among the most cited in that subfield. The role-playing pattern it introduced appears in most multi-agent frameworks.
 
 ### AutoGen
 
@@ -429,7 +429,7 @@ _Omar Khattab et al., Stanford NLP, October 2023; ICLR 2024._
 
 [DSPy][dspy] is a programming model that replaces hand-crafted prompt templates with declarative modules and a compiler that optimizes entire pipelines automatically. A DSPy program declares signatures (input-output behavior), composes them into modules (analogous to neural network layers), and uses teleprompters (optimizers) to tune prompts and few-shot examples against a metric. Within minutes of compiling, a few lines of DSPy outperform standard few-shot prompting by over 25% on GPT-3.5 and by 65% on Llama-2-13b, and beat pipelines built with expert-created demonstrations by up to 46%. The framework has grown into a broad ecosystem covering RAG pipelines, agent loops, and information extraction.
 
-It's the most-cited source on systematic pipeline optimization, and its programming-not-prompting model has become the standard approach for building maintainable agent systems. DSPy is the source of the idea that prompt engineering should be replaced by compilation, the same instinct behind the harness discipline's emphasis on tooling over hand-tuned prompts.
+It's the most-cited source on systematic pipeline optimization, and its programming-not-prompting model is a common way to build maintainable agent systems. DSPy is the source of the idea that prompt engineering should be replaced by compilation, the same instinct behind the harness discipline's emphasis on tooling over hand-tuned prompts.
 
 ## The books
 
