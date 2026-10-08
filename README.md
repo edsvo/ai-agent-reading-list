@@ -245,7 +245,7 @@ The paper is widely treated as the canonical source on agent memory management, 
 
 _Guanzhi Wang et al., NVIDIA, Caltech, and UT Austin, Transactions on Machine Learning Research, 2024._
 
-Guanzhi Wang et al.'s [Voyager][voyager] is the first LLM-powered embodied lifelong learning agent. It operates in Minecraft and combines an automatic curriculum, a growing skill library of executable code, and iterative prompting with environment feedback. It collects 3.3 times as many unique items and reaches tech tree milestones up to 15.3 times faster than prior state of the art.
+Guanzhi Wang et al.'s [Voyager][voyager] is the first LLM-powered embodied lifelong learning agent in Minecraft. It operates in Minecraft and combines an automatic curriculum, a growing skill library of executable code, and iterative prompting with environment feedback. It collects 3.3 times as many unique items and reaches tech tree milestones up to 15.3 times faster than prior state of the art.
 
 It's the source for lifelong learning and skill libraries, the pattern that carries agent capabilities across sessions, now industrialized as packaged Agent Skills.
 
@@ -261,9 +261,9 @@ It's among the first multi-agent collaboration papers and remains one of the mos
 
 _Qingyun Wu et al., Microsoft Research, COLM (Conference on Language Modeling), 2024._
 
-Qingyun Wu et al.'s [AutoGen][autogen] is the multi-agent conversation framework that became the common way to build agent teams. It composes conversable agents: assistants, user proxies, and code executors. These agents solve tasks by passing messages and executing code. The design grew into the Microsoft Agent Framework.
+Qingyun Wu et al.'s [AutoGen][autogen] is the multi-agent conversation framework that became the common way to build agent teams. It composes conversable agents: assistants, user proxies, and code executors. These agents solve tasks by passing messages and executing code. The design grew into the Microsoft Agent Framework, which reached 1.0 in April 2026.
 
-AutoGen is the default for conversation-driven agent orchestration and one of the most widely adopted multi-agent frameworks.
+AutoGen became the default framework for conversation-driven agent orchestration and one of the most widely adopted multi-agent frameworks. It entered maintenance mode in October 2025 and no longer takes new features.
 
 ## The model papers behind the agents
 
@@ -307,7 +307,7 @@ _Yuntao Bai et al., Anthropic, December 2022._
 
 Yuntao Bai et al.'s [Constitutional AI][constitutional-ai] replaces heavy human feedback with AI self-critique guided by a written constitution. It reduces reliance on human labelers while maintaining alignment.
 
-Constitutional AI is the origin of behavior rules written in advance, the same idea behind model specs and agent constitutions.
+Constitutional AI made written behavior rules the mechanism for alignment training rather than a by-product of it. Model specs and agent constitutions follow the same pattern.
 
 ### Chain-of-Thought Prompting
 
