@@ -6,12 +6,24 @@ Last reviewed August 2026.
 
 The same few sources keep resurfacing in most writing about AI agents. This page collects the sources cited most often and relied on most, grouped by what each contributes. Each entry notes how the source was received: who endorses it, where the endorsement is qualified, and where the strongest objections come from.
 
-The order runs from the immediately useful to the foundational, then to production, and finally to reference material. The engineering guides from Anthropic and OpenAI define how agents are designed in practice and give the vocabulary to build with. The harness is everything around the model that makes it useful, from tools and memory to orchestration and verification. The term _harness engineering_ appeared in 2026. The discipline builds on the guides' language.
+The order starts with the immediately useful design guides and moves to harness practice in production. It then continues through the foundational research and model papers, the governance layer, and finally the protocols and books. The engineering guides from Anthropic and OpenAI define how agents are designed in practice and give the vocabulary to build with. The harness is everything around the model that makes it useful, from tools and memory to orchestration and verification. The term _harness engineering_ appeared in 2026. The discipline builds on the guides' language.
 
 A few years of concentrated research produced the underlying ideas. The range runs from reasoning and self-improvement to tool use, the agent-computer interface (the boundary through which an agent perceives and acts on a computer), memory, lifelong learning, and multi-agent collaboration. The model papers behind those ideas describe the capabilities that agents depend on. Governance documents become essential the moment agents connect to production systems. Protocols connect agents to the outside world—to tools, data, codebases, and packaged expertise—and a few books give the field a durable foundation.
 
 > [!NOTE]
 > Compiled with AI assistance and reviewed by the author, [@edsvo](https://github.com/edsvo). Verify claims against the linked sources before relying on them.
+
+## Contents
+
+- [The engineering guides](#the-engineering-guides)
+- [The harness](#the-harness)
+- [The research foundation](#the-research-foundation)
+- [The model papers behind the agents](#the-model-papers-behind-the-agents)
+- [Safety and governance](#safety-and-governance)
+- [Protocols and standards](#protocols-and-standards)
+- [The books](#the-books)
+- [A note on the selection](#a-note-on-the-selection)
+- [References](#references)
 
 ## The engineering guides
 
@@ -69,9 +81,9 @@ Cognition's [Don't Build Multi-Agents][dont-build-multi-agents] makes the dissen
 
 The dissent is taken seriously but read as workload-specific.
 
-### Related reading
+### Supporting artifacts
 
-The preceding entries stake out the main positions on multi-agent design. A few artifacts fill out the design space. The [Building Effective Agents Cookbook][agents-cookbook] holds minimal reference implementations of the workflows the Anthropic post describes. A white paper, [Building Effective AI Agents: Architecture Patterns and Implementation Frameworks][agents-whitepaper], repackages the same ideas for enterprise audiences, with customer case studies from Coinbase, Intercom, and Thomson Reuters. Dexter Horthy's [12 Factor Agents][12-factor-agents] turns the single-threaded preference into a practical checklist, and LlamaIndex packages it as an interactive guide.
+The preceding entries stake out the main positions on multi-agent design. Four supporting artifacts fill out the design space. The [Building Effective Agents Cookbook][agents-cookbook] holds minimal reference implementations of the workflows the Anthropic post describes. A white paper, [Building Effective AI Agents: Architecture Patterns and Implementation Frameworks][agents-whitepaper], repackages the same ideas for enterprise audiences, with customer case studies from Coinbase, Intercom, and Thomson Reuters. Dexter Horthy's [12 Factor Agents][12-factor-agents] turns the single-threaded preference into a practical checklist, and LlamaIndex packages it as an [interactive guide][12-factors-llamaindex].
 
 ## The harness
 
@@ -137,7 +149,7 @@ It was published on Anthropic's engineering blog and covered widely in the trade
 
 ## The research foundation
 
-The following sources are the primary literature behind the patterns that the engineering guides name. They begin with the two overviews of the field. They then follow the introduction's order through the ideas. That order runs from reasoning and self-improvement to tool use, the agent-computer interface, memory, lifelong learning, and multi-agent collaboration. Together they are the source material most agent frameworks are built from.
+The following sources are the primary literature behind the patterns that the engineering guides name. They begin with the two overviews of the field, then follow the introduction's order through the ideas. Together they are the source material most agent frameworks are built from.
 
 ### LLM Powered Autonomous Agents
 
@@ -201,7 +213,7 @@ _John Yang et al., Princeton, NeurIPS 2024._
 
 John Yang et al.'s [SWE-agent][swe-agent] introduces the agent-computer interface, the boundary through which an agent perceives and acts on a computer. It gives an agent a carefully designed shell for viewing, editing, and testing files, and most coding agents have adopted that design. SWE-bench, the benchmark it was built for, is the accepted measure for evaluating them.
 
-It laid the basis for agent-computer interfaces, the design behind most code-writing agents.
+The name has since spread beyond software engineering, and later work on GUI and computer-use agents adopts it for the same purpose.
 
 ### Generative Agents
 
@@ -365,7 +377,7 @@ It documents the guardrails already built into the model layer, before any agent
 
 ## Protocols and standards
 
-Four standards and one framework give agents access to the world beyond their context window. The Model Context Protocol standardizes how an assistant connects to tools and data. The Agent2Agent Protocol standardizes how independent agents discover and coordinate with each other. The `AGENTS.md` file defines how a coding agent learns what a codebase requires. Agent Skills define how reusable expertise is packaged so any agent can load and apply it. DSPy replaces hand-crafted prompt templates with a programming model and compiler that optimizes agent pipelines automatically. Where the safety section governs what agents can do, these define how agents connect. Together they provide a shared interface for agent integration.
+Four standards define how agents reach the world beyond their context window, and one framework optimizes what happens once they get there. The Model Context Protocol standardizes how an assistant connects to tools and data. The Agent2Agent Protocol standardizes how independent agents discover and coordinate with each other. The `AGENTS.md` file defines how a coding agent learns what a codebase requires. Agent Skills define how reusable expertise is packaged so any agent can load and apply it. DSPy, which predates all four standards by more than a year, replaces hand-crafted prompt templates with a programming model and compiler that optimizes agent pipelines automatically. Where the safety section governs what agents can do, the standards define how agents connect. Together they give the field a shared interface for agent integration.
 
 ### Model Context Protocol
 
@@ -446,6 +458,7 @@ The sources collected here are not idiosyncratic. Stanford's [Engineering AI Age
 [agents-cookbook]: https://github.com/anthropics/claude-cookbooks/tree/main/patterns/agents "Building Effective Agents Cookbook"
 [agents-whitepaper]: https://resources.anthropic.com/hubfs/Building%20Effective%20AI%20Agents-%20Architecture%20Patterns%20and%20Implementation%20Frameworks.pdf "Building Effective AI Agents: Architecture Patterns and Implementation Frameworks"
 [12-factor-agents]: https://github.com/humanlayer/12-factor-agents "12 Factor Agents"
+[12-factors-llamaindex]: https://12factors.llamaindex.ai/ "12 Factor Agents in LlamaIndex"
 [hashimoto]: https://mitchellh.com/writing/my-ai-adoption-journey "My AI Adoption Journey"
 [openai-harness]: https://openai.com/index/harness-engineering/ "Harness engineering: leveraging Codex in an agent-first world"
 [anatomy]: https://blog.langchain.com/the-anatomy-of-an-agent-harness "The Anatomy of an Agent Harness"
