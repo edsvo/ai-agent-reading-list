@@ -77,7 +77,7 @@ The taxonomy ranks alongside Anthropic's as the common vocabulary for agent capa
 
 _Walden Yan, Cognition, June 2025._
 
-Cognition's [Don't Build Multi-Agents][dont-build-multi-agents] makes the dissenting case against multi-agent architectures. Walden Yan argues for a single-threaded agent with fully shared context. Multi-agent systems spread decision-making across isolated contexts, so conflicting assumptions compound. The case is grounded in Devin, the coding agent Cognition builds, where write operations share state. It is the territory Anthropic's own multi-agent post flags as a poor fit.
+Cognition's [Don't Build Multi-Agents][dont-build-multi-agents] makes the dissenting case against multi-agent architectures. Walden Yan argues for a single-threaded agent with fully shared context. Multi-agent systems spread decision-making across isolated contexts, so conflicting assumptions compound. The case is grounded in Devin, the coding agent Cognition builds, where write operations share state.
 
 The dissent is taken seriously but read as workload-specific.
 
