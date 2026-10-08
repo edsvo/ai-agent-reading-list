@@ -137,6 +137,8 @@ _Andrej Karpathy, gist.github.com, April 2026._
 
 The gist reached more than 5,000 stars and forks. Independent implementations followed in Python and Elixir. The pattern also ships as an unofficial Agent Skills skill for Claude Code, Cursor, and Codex. Commenters describe running it for client work, codebase documentation, and design automation.
 
+Two limits are worth naming. The gist scopes itself to moderate scale, roughly a hundred sources and hundreds of pages, where a plain index file stands in for embedding-based retrieval. More surprising, the artifact can be correct and still go unused. One team auditing nine real sessions found the wiki read at session start but not mid-task. In two, agents re-diagnosed from scratch a failure that already had a written lesson. A commenter argues contradictions belong at write time rather than in a lint pass. Finding a conflict across pages is quadratic; resolving one on arrival is a lookup.
+
 ### Effective harnesses for long-running agents
 
 _Anthropic, November 2025._
