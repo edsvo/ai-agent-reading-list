@@ -2,7 +2,7 @@
 
 _A curated reading list for AI agents._
 
-Last reviewed August 2026.
+Last reviewed October 2026.
 
 The same few sources keep resurfacing in most writing about AI agents. This page collects the sources cited most often and relied on most, grouped by what each contributes. Each entry notes how the source was received: who endorses it, where the endorsement is qualified, and where the strongest objections come from.
 
@@ -243,7 +243,7 @@ It's the source for lifelong learning and skill libraries, the pattern that carr
 
 _Guohao Li et al., King Abdullah University of Science and Technology (KAUST), NeurIPS 2023._
 
-Guohao Li et al.'s [CAMEL][camel] introduces structured role-playing between an AI user and an AI assistant. It's one of the first frameworks to show multiple LLMs with specialized roles solving tasks cooperatively without continuous human intervention. It grew into the CAMEL-AI ecosystem of workforce orchestration and benchmarks. Its dialogue data has been cited as a source for the synthetic data used in Microsoft Phi.
+Guohao Li et al.'s [CAMEL][camel] introduces structured role-playing between an AI user and an AI assistant. It's one of the first frameworks to show multiple LLMs with specialized roles solving tasks cooperatively without continuous human intervention. It grew into the CAMEL-AI ecosystem of workforce orchestration and benchmarks.
 
 It's among the first multi-agent collaboration papers and remains one of the most cited. The role-playing pattern it introduced appears in most multi-agent frameworks.
 
@@ -369,7 +369,7 @@ It offers important background for understanding the safety constraints shaping 
 
 ### Model Spec
 
-_OpenAI, May 2024; updated February 2025._
+_OpenAI, May 2024; updated August 2026._
 
 OpenAI's [Model Spec][model-spec] is the behavioral constitution for OpenAI models. It covers instruction following, refusals, and safety boundaries. It also covers the design assumptions shaping how agents built on OpenAI models behave.
 
@@ -391,9 +391,9 @@ It's widely treated as the closest thing agent integration has to a common proto
 
 _Google, April 2025._
 
-Google's [Agent2Agent Protocol][a2a] is an open protocol for communication between independent agents. Each agent publishes an _Agent Card_, a machine-readable description of its skills and endpoints, and client agents delegate tasks through a defined lifecycle with streaming updates. It launched with more than fifty partners and has since drawn support from more than a hundred companies.
+Google's [Agent2Agent Protocol][a2a] is an open protocol for communication between independent agents. Each agent publishes an _Agent Card_, a machine-readable description of its skills and endpoints, and client agents delegate tasks through a defined lifecycle with streaming updates. It launched with more than fifty partners and has since drawn support from more than 150 organizations.
 
-In June 2025, Google donated the protocol to the Linux Foundation, where Amazon Web Services, Cisco, Microsoft, Salesforce, SAP, and ServiceNow steward it under neutral governance. It fills the layer MCP does not: where MCP connects an agent to tools and data, A2A lets agents discover each other and hand work across frameworks and organizational boundaries.
+In June 2025, Google donated the protocol to the Linux Foundation, where Amazon Web Services, Cisco, Microsoft, Salesforce, SAP, and ServiceNow steward it under neutral governance. The protocol reached a stable v1.0 in March 2026. In August 2026 it joined the Agentic AI Foundation, directed by the Linux Foundation, as a Growth Stage project alongside the Model Context Protocol and `AGENTS.md`. It fills the layer MCP does not: where MCP connects an agent to tools and data, A2A lets agents discover each other and hand work across frameworks and organizational boundaries.
 
 ### The AGENTS.md file
 
@@ -411,7 +411,7 @@ Anthropic's [Equipping agents for the real world with Agent Skills][agent-skills
 
 The post is also the entry point to the craft of building skills. The standard ships its own [authoring guidance][skills-creation], and Anthropic's [Skill authoring best practices][skill-authoring] is the working reference practitioners consult when writing skills that trigger reliably and stay within context budgets. Their discipline matches the preceding engineering guides: start from evaluation, structure for scale, and iterate against how the agent actually uses the skill. Anthropic's `skill-creator` tooling extends the same rigor to skill authoring, adding testing and benchmarking for skills.
 
-The day the post appeared, Simon Willison wrote in [Claude Skills are awesome, maybe a bigger deal than MCP][willison-skills] that skills' simplicity outsources the hard parts to the model and its harness. When the standard was published, OpenAI and Microsoft adopted it within days, and by mid-2026 roughly forty platforms supported it, from Codex CLI and GitHub Copilot to Gemini CLI and Cursor. Skills join MCP and `AGENTS.md` as the field's shared interfaces—the way reusable capability itself became portable.
+The day the post appeared, Simon Willison wrote in [Claude Skills are awesome, maybe a bigger deal than MCP][willison-skills] that skills' simplicity outsources the hard parts to the model and its harness. Anthropic published the standard in December 2025. By then, Microsoft had already adopted Agent Skills in VS Code and GitHub, and Cursor, Goose, Amp, and OpenCode support the format. Skills join MCP and `AGENTS.md` as the field's shared interfaces—the way reusable capability itself became portable.
 
 ### DSPy
 
@@ -427,7 +427,7 @@ If the papers give the field its immediate ideas, these two books give it a dura
 
 ### AI Engineering
 
-_Chip Huyen, O'Reilly, 2025._
+_Chip Huyen, O'Reilly, December 2024._
 
 Chip Huyen's [AI Engineering][huyen-ai] is a comprehensive guide to the full lifecycle of production AI systems. It covers data curation, model selection, evaluation, deployment, monitoring, and continual learning. It has strong coverage of prompt engineering, retrieval-augmented generation, agent architectures, and the metrics that matter for agentic systems.
 
@@ -443,7 +443,7 @@ It's the foundation for the concepts agents build on, and it's among the books m
 
 ## A note on the selection
 
-The sources collected here are not idiosyncratic. Stanford's [Engineering AI Agents][cs329z] course assigns a dozen of them, and UC Berkeley's [Large Language Model Agents][berkeley-mooc] massive open online course _(MOOC)_ assigns five of them across its tool-use, coding, multi-agent, and safety weeks.
+The sources collected here are not idiosyncratic. Stanford's [Engineering AI Agents][cs329z] course assigns eight of them, and UC Berkeley's [Large Language Model Agents][berkeley-mooc] massive open online course _(MOOC)_ assigns five of them across its tool-use, coding, multi-agent, and safety weeks.
 
 ## References
 
@@ -451,17 +451,17 @@ The sources collected here are not idiosyncratic. Stanford's [Engineering AI Age
 [agents-reference-site]: https://buildingeffectiveagents.com/ "Building Effective Agents: An Engineering Reference"
 [simon-willison]: https://simonwillison.net/2024/Dec/20/building-effective-agents/ "Building effective agents"
 [openai-guide]: https://openai.com/business/guides-and-resources/a-practical-guide-to-building-ai-agents/ "A Practical Guide to Building Agents"
-[anthropic-multi-agent]: https://www.anthropic.com/engineering/built-multi-agent-research-system "How we built our multi-agent research system"
+[anthropic-multi-agent]: https://www.anthropic.com/engineering/multi-agent-research-system "How we built our multi-agent research system"
 [context-engineering]: https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents "Effective context engineering for AI agents"
 [ng-four-strategies]: https://www.deeplearning.ai/the-batch/how-agents-can-improve-llm-performance "Four AI Agent Strategies That Improve GPT-4 and GPT-3.5 Performance"
-[dont-build-multi-agents]: https://cognition.ai/blog/dont-build-multi-agents "Don't Build Multi-Agents"
+[dont-build-multi-agents]: https://cognition.com/blog/dont-build-multi-agents "Don't Build Multi-Agents"
 [agents-cookbook]: https://github.com/anthropics/claude-cookbooks/tree/main/patterns/agents "Building Effective Agents Cookbook"
 [agents-whitepaper]: https://resources.anthropic.com/hubfs/Building%20Effective%20AI%20Agents-%20Architecture%20Patterns%20and%20Implementation%20Frameworks.pdf "Building Effective AI Agents: Architecture Patterns and Implementation Frameworks"
 [12-factor-agents]: https://github.com/humanlayer/12-factor-agents "12 Factor Agents"
 [12-factors-llamaindex]: https://12factors.llamaindex.ai/ "12 Factor Agents in LlamaIndex"
 [hashimoto]: https://mitchellh.com/writing/my-ai-adoption-journey "My AI Adoption Journey"
 [openai-harness]: https://openai.com/index/harness-engineering/ "Harness engineering: leveraging Codex in an agent-first world"
-[anatomy]: https://blog.langchain.com/the-anatomy-of-an-agent-harness "The Anatomy of an Agent Harness"
+[anatomy]: https://www.langchain.com/blog/the-anatomy-of-an-agent-harness "The Anatomy of an Agent Harness"
 [fowler-harness]: https://martinfowler.com/articles/harness-engineering.html "Harness engineering for coding agent users"
 [anthropic-long-running]: https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents "Effective harnesses for long-running agents"
 [anthropic-harness-design]: https://www.anthropic.com/engineering/harness-design-long-running-apps "Harness design for long-running application development"
