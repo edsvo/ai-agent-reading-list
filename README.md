@@ -2,7 +2,7 @@
 
 _A curated reading list for AI agents._
 
-Last reviewed November 2026.
+Last reviewed November 17, 2026.
 
 A small set of sources keeps resurfacing across much of the writing about AI agents. This page collects them for engineers building agents on large language models, with an emphasis on coding agents. It is a curated list, not a survey. Each entry explains what the source contributes and, where useful, how it was received: who relies on it, where the endorsement is qualified, and where the strongest objections come from.
 
