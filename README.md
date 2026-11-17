@@ -6,9 +6,9 @@ Last reviewed November 2026.
 
 A small set of sources keeps resurfacing across much of the writing about AI agents. This page collects sources that are frequently cited and relied on, grouped by what each contributes. It is written for engineers building agents based on large language models, with an emphasis on coding agents. Entries note what the source contributes and, where useful, how it was received: who endorses it, where the endorsement is qualified, and where the strongest objections come from.
 
-The order starts with the practical design guides and moves through harness practice, evaluation, foundational research, model papers, governance, security, protocols, and books. The engineering guides from Anthropic and OpenAI define how agents are designed in practice and give the vocabulary to build with. The harness is everything around the model that makes it useful, from tools and memory to orchestration and verification. The term _harness engineering_ appeared in 2026. The discipline builds on the guides' language.
+The order starts with the practical design guides and moves through harness practice, evaluation, foundational methods, model papers, agent systems, governance, security, protocols, and books. The engineering guides from Anthropic and OpenAI define how agents are designed in practice and give the vocabulary to build with. The harness is everything around the model that makes it useful, from tools and memory to orchestration and verification. The term _harness engineering_ appeared in 2026. The discipline builds on the guides' language.
 
-A few years of concentrated research produced the underlying ideas. The range runs from reasoning and self-improvement to tool use, the agent-computer interface—the boundary through which an agent perceives and acts on a computer—memory, lifelong learning, and multi-agent collaboration. The model papers behind those ideas describe the capabilities that agents depend on. Evaluation and security become essential the moment agents connect to production systems, and governance documents define the surrounding policy layer. Protocols connect agents to the outside world—to tools, data, codebases, and packaged expertise—and a few books give the field a durable foundation.
+A few years of concentrated research produced the underlying ideas. The range runs from reasoning and self-improvement to tool use, the agent-computer interface—the boundary through which an agent perceives and acts on a computer—memory, lifelong learning, and multi-agent collaboration. The methods and model papers behind those ideas describe the capabilities that agents depend on, and the agent systems show how those capabilities are assembled. Evaluation and security become essential the moment agents connect to production systems, and governance documents define the surrounding policy layer. Protocols connect agents to the outside world—to tools, data, codebases, and packaged expertise—and a few books give the field a durable foundation.
 
 > [!NOTE]
 > Compiled with AI assistance and reviewed by the author, [@edsvo](https://github.com/edsvo). Verify claims against the linked sources before relying on them.
@@ -19,8 +19,9 @@ A few years of concentrated research produced the underlying ideas. The range ru
   - [Supporting artifacts](#supporting-artifacts)
 - [The harness](#the-harness)
 - [Evaluation](#evaluation)
-- [The research foundation](#the-research-foundation)
-- [The model papers behind the agents](#the-model-papers-behind-the-agents)
+- [Foundational methods](#foundational-methods)
+- [Model papers](#model-papers)
+- [Agent architectures and systems](#agent-architectures-and-systems)
 - [Safety and governance](#safety-and-governance)
 - [Security](#security)
 - [Protocols and standards](#protocols-and-standards)
@@ -200,9 +201,9 @@ Mike A. Merrill et al.'s [Terminal-Bench][terminal-bench] introduces Terminal-Be
 
 The benchmark is designed to measure long-horizon terminal work rather than single-turn coding, which makes it a useful complement to SWE-bench. It is also a reminder that benchmark scores depend on the harness: the same model can perform differently under a different agent loop.
 
-## The research foundation
+## Foundational methods
 
-The following sources are the primary literature behind the patterns that the engineering guides name. They begin with the two overviews of the field, and then follow the introduction's order through the ideas. Together they are source material for many agent frameworks.
+The following sources begin with two overviews of the field, then move through reasoning, retrieval, tool use, and code-as-reasoning. They are the methods and concepts that agent systems build on.
 
 ### LLM Powered Autonomous Agents
 
@@ -219,6 +220,22 @@ _Lei Wang et al., Frontiers of Computer Science, 2024._
 Lei Wang et al.'s [A Survey on LLM-based Autonomous Agents][survey] is a widely cited survey of the field. It organizes agents into construction, application, and evaluation. It catalogs how agents are built: reasoning, memory, planning, tool use, and multi-agent collaboration. It also catalogs where they are deployed. Together they give a broad picture of the design space in one place.
 
 By November 2026 the survey had drawn more than two thousand citations and was still being revised two years after publication. Its construction, application, and evaluation split has become a common way to organize the literature on agents.
+
+### Chain-of-Thought Prompting
+
+_Jason Wei et al., Google Research, NeurIPS 2022._
+
+Jason Wei et al.'s [Chain-of-Thought Prompting][cot] shows that prompting for intermediate reasoning steps substantially improves performance. The gains appear on arithmetic, commonsense, and symbolic reasoning tasks.
+
+It made reasoning visible and steerable and is an ancestor of many patterns of thinking before acting in agents.
+
+### Self-Consistency
+
+_Xuezhi Wang et al., Google Research, ICLR 2023._
+
+Xuezhi Wang et al.'s [Self-Consistency][self-consistency] improves chain-of-thought by sampling multiple reasoning paths and selecting the most consistent answer. It reduces variance without additional training.
+
+It remains a key source on sampling-based verification, a core technique in reasoning and in some evaluator patterns.
 
 ### ReAct
 
@@ -244,6 +261,22 @@ Noah Shinn et al.'s [Reflexion][reflexion] introduces verbal reinforcement learn
 
 Reflexion made self-improvement through reflection a common pattern in agent harnesses.
 
+### Retrieval-Augmented Generation
+
+_Patrick Lewis et al., Meta AI, NeurIPS 2020._
+
+Patrick Lewis et al.'s [Retrieval-Augmented Generation][rag] introduces the retriever-reader architecture that grounds LLM outputs in external knowledge. It established a common approach to grounding outputs and reducing hallucination in knowledge-intensive tasks.
+
+This paper is an early foundation for grounding, a common way agents connect to enterprise data.
+
+### Lost in the Middle
+
+_Nelson F. Liu et al., TACL, 2024._
+
+Nelson F. Liu et al.'s [Lost in the Middle][lost-in-the-middle] shows that language models use long contexts unevenly. Information near the beginning and end of the context is recalled more reliably than information in the middle, even for models with large context windows. The effect persists across tasks and model families.
+
+The finding is a primary source for context-engineering practices such as reordering, compaction, and retrieval. It is also a useful counterweight to the assumption that a larger context window removes the need to curate what enters it.
+
 ### Gorilla
 
 _Shishir G. Patil et al., UC Berkeley, NeurIPS 2024._
@@ -251,6 +284,94 @@ _Shishir G. Patil et al., UC Berkeley, NeurIPS 2024._
 Shishir G. Patil et al.'s [Gorilla][gorilla] shows that LLMs can learn to call large sets of APIs accurately. It combines retrieval over API documentation with fine-tuning, and introduces APIBench to measure API-call correctness. The resulting models outperform larger general-purpose models on API calls and are less prone to hallucinated arguments.
 
 Gorilla addresses the gap between a model's parametric knowledge and rapidly changing APIs, a central problem for tool-using agents. It is a useful foundation for modern function calling, where API schemas and retrieval matter as much as the model's parametric knowledge.
+
+### Program-Aided Language Models
+
+_Luyu Gao et al., Carnegie Mellon, ICML 2023._
+
+Luyu Gao et al.'s [Program-Aided Language Models][pal] demonstrates that offloading reasoning to executable Python code works. The model generates code instead of natural-language chains and executes it through a runtime. That approach achieves high accuracy on math benchmarks.
+
+This paper is an early example of code-as-reasoning, the pattern behind code-writing agents and tool-use loops.
+
+## Model papers
+
+These papers describe the models that agents depend on. They open with the architecture that started the Transformer era, then move through pretraining and scaling to alignment and reasoning.
+
+### Attention Is All You Need
+
+_Ashish Vaswani et al., Google Brain, NeurIPS 2017._
+
+Ashish Vaswani et al.'s [Attention Is All You Need][attention] introduces the Transformer architecture: self-attention, multi-head attention, and positional encoding. It displaced recurrent networks and became a foundation for many LLMs.
+
+It is a foundational paper for modern LLMs, and many agent architectures are hard to understand without it.
+
+### BERT
+
+_Jacob Devlin et al., Google, NAACL 2019._
+
+Jacob Devlin et al.'s [BERT][bert] establishes bidirectional pretraining with masked language modeling. It enables deep contextual understanding and sets benchmarks across 11 natural language processing tasks.
+
+This paper helped make pretraining the default approach. Its encoder architecture underpins many retrieval and classification components in agent systems.
+
+### Language Models are Few-Shot Learners
+
+_Tom B. Brown et al., OpenAI, NeurIPS 2020._
+
+Tom B. Brown et al.'s [Language Models are Few-Shot Learners][gpt3] demonstrates that scaling to 175 billion parameters enables in-context learning from a few examples. It helped launch the LLM era and the foundation-model paradigm.
+
+The paper enabled a capability jump that helped make agents possible and is a widely referenced scaling result.
+
+### Chinchilla
+
+_Jordan Hoffmann et al., DeepMind, NeurIPS 2022._
+
+Jordan Hoffmann et al.'s [Chinchilla][chinchilla] shows that most large language models were undertrained relative to their size. By scaling parameters and training data together, it derives compute-optimal training recipes and finds that a 70-billion-parameter model trained on more tokens can outperform a 280-billion-parameter model.
+
+The result reset assumptions about model scaling and became a standard reference for compute-optimal training. It is the natural companion to GPT-3's scaling story: bigger models help, but data and compute allocation matter as much as parameter count.
+
+### Training Language Models to Follow Instructions with Human Feedback
+
+_Long Ouyang et al., OpenAI, NeurIPS 2022._
+
+Long Ouyang et al.'s [Training Language Models to Follow Instructions with Human Feedback][instructgpt] introduces _reinforcement learning from human feedback_ (_RLHF_). RLHF combines supervised fine-tuning, reward modeling, and proximal policy optimization to align models with human intent. It is the method behind ChatGPT and many instruction-tuned models.
+
+This paper turned capable models into instruction-following agents, a key reason that agent behavior is steerable.
+
+### Direct Preference Optimization
+
+_Rafael Rafailov et al., Stanford, NeurIPS 2023._
+
+Rafael Rafailov et al.'s [Direct Preference Optimization][dpo] (DPO) replaces the reward-modeling stage of RLHF with a direct classification objective on preference pairs. It is simpler and more stable to train than PPO-based RLHF, and it avoids fitting a separate reward model.
+
+DPO became a common alignment method and a useful complement to InstructGPT's RLHF pipeline. It is the main alternative to read alongside the original RLHF paper when comparing alignment approaches.
+
+### Constitutional AI
+
+_Yuntao Bai et al., Anthropic, December 2022._
+
+Yuntao Bai et al.'s [Constitutional AI][constitutional-ai] replaces heavy human feedback with AI self-critique guided by a written constitution. It reduces reliance on human labelers while maintaining alignment.
+
+Constitutional AI made written behavior rules a central mechanism for alignment training. Model specs and agent constitutions follow the same pattern.
+
+### DeepSeek-R1
+
+_DeepSeek-AI, January 2025._
+
+DeepSeek-AI's [DeepSeek-R1][deepseek-r1] shows that reinforcement learning alone can produce reasoning. Its first experiment, DeepSeek-R1-Zero, trains a base model with no labeled examples, and behaviors such as verification, reflection, and backtracking emerge on their own. The released model adds a small cold-start dataset and a multi-stage pipeline. It matches OpenAI's o1 on math, code, and general reasoning benchmarks, scoring 79.8% `pass@1` on AIME 2024 against o1's 79.2%.
+
+The open weights and distillation recipe helped launch a series of open reasoning models, making trained reasoning a common layer beneath agent harnesses.
+
+## Agent architectures and systems
+
+These sources describe agent architectures and systems: a cognitive architecture for language agents, coding and simulation systems, memory and lifelong-learning designs, multi-agent frameworks, and an empirical analysis of why multi-agent systems fail.
+
+### Cognitive Architectures for Language Agents
+
+_Theodore Sumers et al., TMLR, 2024._
+
+Theodore Sumers et al.'s [Cognitive Architectures for Language Agents][coala] (CoALA) proposes a cognitive architecture for language agents, organized around memory modules, action spaces, and a decision-making loop. It separates working memory, episodic memory, semantic memory, and procedural memory, and maps them to agent capabilities.
+
+CoALA gives a vocabulary for comparing agent designs and for reasoning about memory, planning, and action. It is a useful conceptual layer above individual agent systems, and it pairs well with the memory-focused systems in this section.
 
 ### SWE-agent
 
@@ -292,89 +413,13 @@ Qingyun Wu et al.'s [AutoGen][autogen] is the multi-agent conversation framework
 
 AutoGen became a common framework for conversation-driven agent orchestration and a widely adopted multi-agent framework. It entered maintenance mode in October 2025 and is archived.
 
-## The model papers behind the agents
+### Why Do Multi-Agent LLM Systems Fail?
 
-These papers are behind the models that many agents depend on. They open with the architecture that started the Transformer era. They then move from pretraining and scaling, through alignment, to the methods that turned capable models into useful agents. Those methods run from reasoning and verification to retrieval grounding and code. Each entry covers one layer of the model stack. The papers make possible the reasoning, tool use, and orchestration patterns described in the surrounding sections.
+_Mert Cemri et al., NeurIPS, 2025._
 
-### Attention Is All You Need
+Mert Cemri et al.'s [Why Do Multi-Agent LLM Systems Fail?][mast] introduces MAST, the Multi-Agent System Failure Taxonomy, built from more than 1,600 annotated execution traces across seven frameworks. It identifies 14 failure modes in three categories: system design, inter-agent misalignment, and task verification.
 
-_Ashish Vaswani et al., Google Brain, NeurIPS 2017._
-
-Ashish Vaswani et al.'s [Attention Is All You Need][attention] introduces the Transformer architecture: self-attention, multi-head attention, and positional encoding. It displaced recurrent networks and became a foundation for many LLMs.
-
-It is a foundational paper for modern LLMs, and many agent architectures are hard to understand without it.
-
-### BERT
-
-_Jacob Devlin et al., Google, NAACL 2019._
-
-Jacob Devlin et al.'s [BERT][bert] establishes bidirectional pretraining with masked language modeling. It enables deep contextual understanding and sets benchmarks across 11 natural language processing tasks.
-
-This paper helped make pretraining the default approach. Its encoder architecture underpins many retrieval and classification components in agent systems.
-
-### Language Models are Few-Shot Learners
-
-_Tom B. Brown et al., OpenAI, NeurIPS 2020._
-
-Tom B. Brown et al.'s [Language Models are Few-Shot Learners][gpt3] demonstrates that scaling to 175 billion parameters enables in-context learning from a few examples. It helped launch the LLM era and the foundation-model paradigm.
-
-The paper enabled a capability jump that helped make agents possible and is a widely referenced scaling result.
-
-### Training Language Models to Follow Instructions with Human Feedback
-
-_Long Ouyang et al., OpenAI, NeurIPS 2022._
-
-Long Ouyang et al.'s [Training Language Models to Follow Instructions with Human Feedback][instructgpt] introduces _reinforcement learning from human feedback_ (_RLHF_). RLHF combines supervised fine-tuning, reward modeling, and proximal policy optimization to align models with human intent. It is the method behind ChatGPT and many instruction-tuned models.
-
-This paper turned capable models into instruction-following agents, a key reason that agent behavior is steerable.
-
-### Constitutional AI
-
-_Yuntao Bai et al., Anthropic, December 2022._
-
-Yuntao Bai et al.'s [Constitutional AI][constitutional-ai] replaces heavy human feedback with AI self-critique guided by a written constitution. It reduces reliance on human labelers while maintaining alignment.
-
-Constitutional AI made written behavior rules a central mechanism for alignment training. Model specs and agent constitutions follow the same pattern.
-
-### Chain-of-Thought Prompting
-
-_Jason Wei et al., Google Research, NeurIPS 2022._
-
-Jason Wei et al.'s [Chain-of-Thought Prompting][cot] shows that prompting for intermediate reasoning steps substantially improves performance. The gains appear on arithmetic, commonsense, and symbolic reasoning tasks.
-
-It made reasoning visible and steerable and is an ancestor of many patterns of thinking before acting in agents.
-
-### Self-Consistency
-
-_Xuezhi Wang et al., Google Research, ICLR 2023._
-
-Xuezhi Wang et al.'s [Self-Consistency][self-consistency] improves chain-of-thought by sampling multiple reasoning paths and selecting the most consistent answer. It reduces variance without additional training.
-
-It remains a key source on sampling-based verification, a core technique in reasoning and in some evaluator patterns.
-
-### DeepSeek-R1
-
-_DeepSeek-AI, January 2025._
-
-DeepSeek-AI's [DeepSeek-R1][deepseek-r1] shows that reinforcement learning alone can produce reasoning. Its first experiment, DeepSeek-R1-Zero, trains a base model with no labeled examples, and behaviors such as verification, reflection, and backtracking emerge on their own. The released model adds a small cold-start dataset and a multi-stage pipeline. It matches OpenAI's o1 on math, code, and general reasoning benchmarks, scoring 79.8% `pass@1` on AIME 2024 against o1's 79.2%.
-
-The open weights and distillation recipe helped launch a series of open reasoning models, making trained reasoning a common layer beneath agent harnesses.
-
-### Retrieval-Augmented Generation
-
-_Patrick Lewis et al., Meta AI, NeurIPS 2020._
-
-Patrick Lewis et al.'s [Retrieval-Augmented Generation][rag] introduces the retriever-reader architecture that grounds LLM outputs in external knowledge. It established a common approach to grounding outputs and reducing hallucination in knowledge-intensive tasks.
-
-This paper is an early foundation for grounding, a common way agents connect to enterprise data.
-
-### Program-Aided Language Models
-
-_Luyu Gao et al., Carnegie Mellon, ICML 2023._
-
-Luyu Gao et al.'s [Program-Aided Language Models][pal] demonstrates that offloading reasoning to executable Python code works. The model generates code instead of natural-language chains and executes it through a runtime. That approach achieves high accuracy on math benchmarks.
-
-This paper is an early example of code-as-reasoning, the pattern behind code-writing agents and tool-use loops.
+The paper reports failure rates between 41% and 86.7% on the systems it studies, and argues that many failures require structural redesign rather than better prompts. It supplies the empirical failure-mode study that the Anthropic-versus-Cognition debate otherwise lacks.
 
 ## Safety and governance
 
@@ -428,7 +473,7 @@ The post is a useful threat-model heuristic rather than a complete defense. Its 
 
 _Luca Beurer-Kellner et al., 2025._
 
-Luca Beurer-Kellner et al.'s [Design Patterns for Securing LLM Agents against Prompt Injections][prompt-injection-patterns] proposes six architectural patterns for agents that handle untrusted input. The patterns include the action-selector, plan-then-execute, and dual-LLM designs. Each constrains what untrusted content can influence and trades some utility for security.
+Luca Beurer-Kellner et al.'s [Design Patterns for Securing LLM Agents against Prompt Injections][prompt-injection-patterns] proposes six architectural patterns for agents that handle untrusted input. The patterns include the Action-Selector, Plan-Then-Execute, and Dual LLM designs. Each constrains what untrusted content can influence and trades some utility for security.
 
 The paper is a concrete complement to the lethal-trifecta heuristic: it turns the heuristic into specific architectures. The trade-offs are explicit, and the paper is honest that provable resistance often requires narrowing what the agent can do.
 
@@ -500,7 +545,15 @@ It provides a foundation for many concepts agents build on and is often cited as
 
 ## A note on the selection
 
-The sources collected here are not idiosyncratic. As of the September 2026 syllabus, Stanford's [Engineering AI Agents][cs329z] course assigns more than ten of them. UC Berkeley's [Large Language Model Agents][berkeley-mooc] _massive open online course_ (_MOOC_) assigns five across its tool-use, coding, multi-agent, and safety weeks.
+This is a curated canon, not a systematic survey. Sources were selected from the reading lists of the Stanford and Berkeley courses cited here, recurring citations in provider engineering guides, and practitioner reading lists. Inclusion means a source contributes a distinct idea or is widely relied on; it does not mean every claim in it has been independently replicated.
+
+Use this rough scale when weighing an entry's claims:
+
+- **A:** The claim is peer-reviewed or independently replicated.
+- **B:** The claim rests on a production case study or a provider-reported benchmark.
+- **C:** The claim comes from a practitioner essay, pattern, or anecdote.
+
+Where a claim depends on a provider's own benchmark or deployment, the entry identifies it as such. Stanford's [Engineering AI Agents][cs329z] course, as of its September 2026 syllabus, assigns more than ten of the sources here. UC Berkeley's [Large Language Model Agents][berkeley-mooc] _massive open online course_ (_MOOC_) assigns five across its tool-use, coding, multi-agent, and safety weeks.
 
 ## References
 
@@ -528,25 +581,30 @@ The sources collected here are not idiosyncratic. As of the September 2026 sylla
 [terminal-bench]: https://arxiv.org/abs/2601.11868 "Terminal-Bench: Benchmarking Agents on Hard, Realistic Tasks in Command Line Interfaces"
 [weng]: https://lilianweng.github.io/posts/2023-06-23-agent/ "LLM Powered Autonomous Agents"
 [survey]: https://arxiv.org/abs/2308.11432 "A Survey on LLM-based Autonomous Agents"
+[cot]: https://arxiv.org/abs/2201.11903 "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models"
+[self-consistency]: https://arxiv.org/abs/2203.11171 "Self-Consistency Improves Chain of Thought Reasoning in Language Models"
 [react]: https://arxiv.org/abs/2210.03629 "ReAct: Synergizing Reasoning and Acting in Language Models"
 [tot]: https://arxiv.org/abs/2305.10601 "Tree of Thoughts: Deliberate Problem Solving with Large Language Models"
 [reflexion]: https://arxiv.org/abs/2303.11366 "Reflexion: Language Agents with Verbal Reinforcement Learning"
+[rag]: https://arxiv.org/abs/2005.11401 "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks"
+[lost-in-the-middle]: https://arxiv.org/abs/2307.03172 "Lost in the Middle: How Language Models Use Long Contexts"
 [gorilla]: https://arxiv.org/abs/2305.15334 "Gorilla: Large Language Model Connected with Massive APIs"
+[pal]: https://arxiv.org/abs/2211.10435 "Program-Aided Language Models"
+[attention]: https://arxiv.org/abs/1706.03762 "Attention Is All You Need"
+[bert]: https://arxiv.org/abs/1810.04805 "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding"
+[gpt3]: https://arxiv.org/abs/2005.14165 "Language Models are Few-Shot Learners"
+[chinchilla]: https://arxiv.org/abs/2203.15556 "Training Compute-Optimal Large Language Models"
+[instructgpt]: https://arxiv.org/abs/2203.02155 "Training Language Models to Follow Instructions with Human Feedback"
+[dpo]: https://arxiv.org/abs/2305.18290 "Direct Preference Optimization: Your Language Model is Secretly a Reward Model"
+[constitutional-ai]: https://arxiv.org/abs/2212.08073 "Constitutional AI: Harmlessness from AI Feedback"
+[deepseek-r1]: https://arxiv.org/abs/2501.12948 "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning"
+[coala]: https://arxiv.org/abs/2309.02427 "Cognitive Architectures for Language Agents"
 [swe-agent]: https://arxiv.org/abs/2405.15793 "SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering"
 [gen-agents]: https://arxiv.org/abs/2304.03442 "Generative Agents: Interactive Simulacra of Human Behavior"
 [memgpt]: https://arxiv.org/abs/2310.08560 "MemGPT: Towards LLMs as Operating Systems"
 [voyager]: https://arxiv.org/abs/2305.16291 "Voyager: An Open-Ended Embodied Agent with Large Language Models"
 [autogen]: https://arxiv.org/abs/2308.08155 "AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation"
-[attention]: https://arxiv.org/abs/1706.03762 "Attention Is All You Need"
-[bert]: https://arxiv.org/abs/1810.04805 "BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding"
-[gpt3]: https://arxiv.org/abs/2005.14165 "Language Models are Few-Shot Learners"
-[instructgpt]: https://arxiv.org/abs/2203.02155 "Training Language Models to Follow Instructions with Human Feedback"
-[constitutional-ai]: https://arxiv.org/abs/2212.08073 "Constitutional AI: Harmlessness from AI Feedback"
-[cot]: https://arxiv.org/abs/2201.11903 "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models"
-[self-consistency]: https://arxiv.org/abs/2203.11171 "Self-Consistency Improves Chain of Thought Reasoning in Language Models"
-[deepseek-r1]: https://arxiv.org/abs/2501.12948 "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning"
-[rag]: https://arxiv.org/abs/2005.11401 "Retrieval-Augmented Generation for Knowledge-Intensive NLP Tasks"
-[pal]: https://arxiv.org/abs/2211.10435 "Program-Aided Language Models"
+[mast]: https://arxiv.org/abs/2503.13657 "Why Do Multi-Agent LLM Systems Fail?"
 [openai-governance]: https://openai.com/index/practices-for-governing-agentic-ai-systems/ "Practices for Governing Agentic AI Systems"
 [anthropic-trustworthy]: https://www.anthropic.com/research/trustworthy-agents "Trustworthy Agents in Practice"
 [anthropic-rsp]: https://www.anthropic.com/responsible-scaling-policy "Responsible Scaling Policy"
