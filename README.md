@@ -33,7 +33,7 @@ A few years of concentrated research produced the underlying ideas. The range ru
 
 Two provider guides open this section, covering the same design space in different ways. Anthropic's guide is a taxonomy: three building blocks, five workflow patterns, and a clear line between workflows and agents. The taxonomy is deliberately framework-independent. Workflows fix control flow in code; agents leave control flow to the model. OpenAI's guide is a build guide: three pillars (model, tools, and instructions), orchestration from a single agent to decentralized handoffs, and the Agents SDK. Guardrails place constraints on agent behavior.
 
-Both give the same advice: start with the simplest thing that works and add complexity only when it demonstrably helps. Read together, they give you the terms for naming an agent design and the path for building it. The rest of the section follows that vocabulary into production practice, capability framing, and dissent.
+Both give the same advice: start with the simplest thing that works and add complexity only when it demonstrably helps. Read together, they give you the terms for naming an agent design and the path for building it. The rest of the section follows that vocabulary into production practice, tool design, and dissent.
 
 ### Building Effective Agents
 
@@ -69,13 +69,13 @@ Anthropic's [Effective context engineering for AI agents][context-engineering] d
 
 The term predates the post. Walden Yan had used it in [Don't Build Multi-Agents][dont-build-multi-agents] in June 2025, after the phrase had already begun circulating. Tobi Lütke and Andrej Karpathy popularized it in the weeks that followed. Anthropic's post gave it a detailed engineering treatment and a wide audience. It helped establish the context-management vocabulary—compaction, subagent context isolation, just-in-time retrieval—that later agent writing borrows.
 
-### Four AI Agent Strategies That Improve GPT-4 and GPT-3.5 Performance
+### Writing effective tools for agents — with agents
 
-_Andrew Ng, The Batch, March 2024._
+_Anthropic, September 2025._
 
-Andrew Ng's [four agent strategies][ng-four-strategies] are reflection, tool use, planning, and multi-agent collaboration. The post argues that agent workflows will drive more progress than the next generation of foundation models. It supports the claim with HumanEval results: GPT-4 in zero-shot mode scores 67.0%, whereas GPT-3.5 wrapped in an agent loop reaches 95.1%. The framework is a common way to describe what agents can do.
+Anthropic's [Writing effective tools for agents][writing-tools] treats a tool as a contract between deterministic software and a non-deterministic agent. It argues that tools and MCP servers should be designed for agents rather than for human developers, because an agent may call a tool in unexpected ways or fail to understand it. It recommends prototyping early, building evaluations from realistic multi-step tasks, and using an agent such as Claude Code to refine tools against that evaluation. It distills five principles: choose which tools to implement, namespace them, return meaningful context, optimize responses for token efficiency, and prompt-engineer the descriptions and specifications.
 
-The taxonomy is a common vocabulary for agent capabilities. The series also carries Ng's caution: reflection and tool use are the mature, reliable patterns, whereas planning and multi-agent collaboration remain less predictable.
+The post fills the gap between the design guides and the protocol layer: it is about the tools an agent calls, not the agent loop or the transport. It is the practical companion to MCP in the protocols section.
 
 ### Don't Build Multi-Agents
 
@@ -197,7 +197,7 @@ The guide complements AI Agents That Matter with an implementation-oriented view
 
 _Mike A. Merrill et al., ICLR 2026._
 
-Mike A. Merrill et al.'s [Terminal-Bench][terminal-bench] introduces Terminal-Bench 2.0, a benchmark of 89 hard, realistic tasks in terminal environments. Each task has a unique environment, a human-written solution, and tests for verification. Frontier models and agents score less than 65% on the benchmark.
+Mike A. Merrill et al.'s [Terminal-Bench][terminal-bench] introduces Terminal-Bench 2.0, a benchmark of 89 hard, realistic tasks in terminal environments. Each task has a unique environment, a human-written solution, and tests for verification. When the paper was published, frontier systems scored below 65%; by November 2026, top systems score above 70%, and a 2.1 revision fixes 28 of the 89 tasks.
 
 The benchmark is designed to measure long-horizon terminal work rather than single-turn coding, which makes it a useful complement to SWE-bench. It is also a reminder that benchmark scores depend on the harness: the same model can perform differently under a different agent loop.
 
@@ -211,7 +211,7 @@ The benchmark fills a gap that single-control benchmarks leave open: many produc
 
 ## Foundational methods
 
-The following sources begin with two overviews of the field, and then move through reasoning, retrieval, tool use, and code-as-reasoning. They are the methods and concepts that agent systems build on.
+The following sources begin with an overview of the field, and then move through reasoning, retrieval, tool use, and code-as-reasoning. They are the methods and concepts that agent systems build on.
 
 ### LLM Powered Autonomous Agents
 
@@ -220,14 +220,6 @@ _Lilian Weng, June 2023._
 Lilian Weng's [LLM Powered Autonomous Agents][weng] is a well-known overview of agent architecture. Weng frames an agent as an LLM core with three surrounding components: planning, memory, and tool use. Planning covers subgoal decomposition and reflection. Memory covers short-term context and long-term stores. Tool use covers external APIs and code execution. She shows how each component was assembled from earlier research. Written while she was at OpenAI, it is a common starting point for engineers.
 
 The framing it named—planning, memory, and tool use—became a common vocabulary.
-
-### A Survey on LLM-based Autonomous Agents
-
-_Lei Wang et al., Frontiers of Computer Science, 2024._
-
-Lei Wang et al.'s [A Survey on LLM-based Autonomous Agents][survey] is a widely cited survey of the field. It organizes agents into construction, application, and evaluation. It catalogs how agents are built: reasoning, memory, planning, tool use, and multi-agent collaboration. It also catalogs where they are deployed. Together they give a broad picture of the design space in one place.
-
-By November 2026 the survey had drawn more than two thousand citations and was still being revised two years after publication. Its construction, application, and evaluation split has become a common way to organize the literature on agents.
 
 ### Chain-of-Thought Prompting
 
@@ -379,7 +371,7 @@ Kimi K2 gives the section a current open-weight agentic model. It reports state-
 
 ## Agent architectures and systems
 
-These sources describe agent architectures and systems: a cognitive architecture for language agents, coding and simulation systems, memory and lifelong-learning designs, multi-agent frameworks, and an empirical analysis of why multi-agent systems fail. They close with a simpler pipeline that questions how much of that architecture the work requires.
+These sources describe agent architectures and systems: a cognitive architecture for language agents, coding and simulation systems, memory and lifelong-learning designs, and an empirical analysis of why multi-agent systems fail. They close with a simpler pipeline that questions how much of that architecture the work requires.
 
 ### Cognitive Architectures for Language Agents
 
@@ -396,6 +388,14 @@ _John Yang et al., Princeton, NeurIPS 2024._
 John Yang et al.'s [SWE-agent][swe-agent] introduces the agent-computer interface, the boundary through which an agent perceives and acts on a computer. It gives an agent a purpose-built shell for viewing, editing, and testing files, and many coding agents have adopted that design. SWE-bench, the software engineering benchmark it was built for, is a widely used measure for evaluating them.
 
 The name has since spread beyond software engineering, and later work on GUI and computer-use agents adopts it for the same purpose.
+
+### OpenHands
+
+_Xingyao Wang et al., ICLR 2025._
+
+Xingyao Wang et al.'s [OpenHands][openhands] is an open platform for AI software developers. It gives an agent a sandboxed runtime with a shell, a code editor, a browser, and a shared file system, and it supplies an evaluation harness across software engineering, web browsing, and general assistant tasks. It is released under the MIT license and is built as a community project.
+
+OpenHands is the systems counterpart to SWE-agent: where SWE-agent defines the agent-computer interface, OpenHands packages that interface into a reusable platform. It is also a useful reference for how much of a coding agent is infrastructure rather than model behavior.
 
 ### Generative Agents
 
@@ -420,14 +420,6 @@ _Guanzhi Wang et al., NVIDIA, Caltech, and UT Austin, Transactions on Machine Le
 Guanzhi Wang et al.'s [Voyager][voyager] is an early LLM-powered embodied lifelong learning agent in Minecraft. It operates in Minecraft and combines an automatic curriculum, a growing skill library of executable code, and iterative prompting with environment feedback. It collects 3.3 times as many unique items and reaches tech tree milestones up to 15.3 times faster than prior state of the art.
 
 It's a source for lifelong learning and skill libraries, the pattern that carries agent capabilities across sessions and is packaged as Agent Skills.
-
-### AutoGen
-
-_Qingyun Wu et al., Microsoft Research, COLM (Conference on Language Modeling), 2024._
-
-Qingyun Wu et al.'s [AutoGen][autogen] is the multi-agent conversation framework that became a common way to build agent teams. It composes conversable agents: assistants, user proxies, and code executors. These agents solve tasks by passing messages and executing code. The design evolved into the Microsoft Agent Framework, which reached 1.0 in April 2026.
-
-AutoGen became a common framework for conversation-driven agent orchestration and a widely adopted multi-agent framework. It entered maintenance mode in October 2025 and is archived.
 
 ### Why Do Multi-Agent LLM Systems Fail?
 
@@ -627,7 +619,7 @@ Where a claim depends on a provider's own benchmark or deployment, the entry ide
 [anthropic-multi-agent]: https://www.anthropic.com/engineering/multi-agent-research-system "How we built our multi-agent research system"
 [context-engineering]: https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents "Effective context engineering for AI agents"
 [chroma-context-rot]: https://research.trychroma.com/context-rot "Context Rot: How Increasing Input Tokens Impacts LLM Performance"
-[ng-four-strategies]: https://www.deeplearning.ai/the-batch/how-agents-can-improve-llm-performance "Four AI Agent Strategies That Improve GPT-4 and GPT-3.5 Performance"
+[writing-tools]: https://www.anthropic.com/engineering/writing-tools-for-agents "Writing effective tools for agents — with agents"
 [dont-build-multi-agents]: https://cognition.com/blog/dont-build-multi-agents "Don't Build Multi-Agents"
 [multi-agents-working]: https://cognition.com/blog/multi-agents-working "Multi-Agents: What's Actually Working"
 [agents-cookbook]: https://github.com/anthropics/claude-cookbooks/tree/main/patterns/agents "Building Effective Agents Cookbook"
@@ -645,7 +637,6 @@ Where a claim depends on a provider's own benchmark or deployment, the entry ide
 [terminal-bench]: https://arxiv.org/abs/2601.11868 "Terminal-Bench: Benchmarking Agents on Hard, Realistic Tasks in Command Line Interfaces"
 [tau2-bench]: https://arxiv.org/abs/2506.07982 "τ2-Bench: Evaluating Conversational Agents in a Dual-Control Environment"
 [weng]: https://lilianweng.github.io/posts/2023-06-23-agent/ "LLM Powered Autonomous Agents"
-[survey]: https://arxiv.org/abs/2308.11432 "A Survey on LLM-based Autonomous Agents"
 [cot]: https://arxiv.org/abs/2201.11903 "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models"
 [self-consistency]: https://arxiv.org/abs/2203.11171 "Self-Consistency Improves Chain of Thought Reasoning in Language Models"
 [react]: https://arxiv.org/abs/2210.03629 "ReAct: Synergizing Reasoning and Acting in Language Models"
@@ -666,10 +657,10 @@ Where a claim depends on a provider's own benchmark or deployment, the entry ide
 [kimi-k2]: https://arxiv.org/abs/2507.20534 "Kimi K2: Open Agentic Intelligence"
 [coala]: https://arxiv.org/abs/2309.02427 "Cognitive Architectures for Language Agents"
 [swe-agent]: https://arxiv.org/abs/2405.15793 "SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering"
+[openhands]: https://arxiv.org/abs/2407.16741 "OpenHands: An Open Platform for AI Software Developers as Generalist Agents"
 [gen-agents]: https://arxiv.org/abs/2304.03442 "Generative Agents: Interactive Simulacra of Human Behavior"
 [memgpt]: https://arxiv.org/abs/2310.08560 "MemGPT: Towards LLMs as Operating Systems"
 [voyager]: https://arxiv.org/abs/2305.16291 "Voyager: An Open-Ended Embodied Agent with Large Language Models"
-[autogen]: https://arxiv.org/abs/2308.08155 "AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation"
 [mast]: https://arxiv.org/abs/2503.13657 "Why Do Multi-Agent LLM Systems Fail?"
 [agentless]: https://arxiv.org/abs/2407.01489 "Agentless: Demystifying LLM-based Software Engineering Agents"
 [openai-governance]: https://openai.com/index/practices-for-governing-agentic-ai-systems/ "Practices for Governing Agentic AI Systems"
