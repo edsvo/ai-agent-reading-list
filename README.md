@@ -31,7 +31,7 @@ The later sections cover the ideas and constraints that building agents depends 
 
 ## The engineering guides
 
-Two provider guides open this section, covering the same design space in different ways. Anthropic's guide is a taxonomy: three building blocks, five workflow patterns, and a clear line between workflows and agents. The taxonomy is framework-independent. Workflows fix control flow in code; agents leave control flow to the model. OpenAI's guide is a build guide: three pillars (model, tools, and instructions), orchestration from a single agent to decentralized handoffs, and the Agents SDK. Guardrails place constraints on agent behavior.
+Two provider guides open this section, covering the same design space in different ways. Anthropic's guide is a taxonomy: three building blocks, five workflow patterns, and a clear distinction between workflows and agents. The taxonomy is framework-independent. Workflows fix control flow in code; agents leave control flow to the model. OpenAI's guide is a build guide: three pillars (model, tools, and instructions), orchestration from a single agent to decentralized handoffs, the Agents SDK, and guardrails on agent behavior.
 
 Both give the same advice: start with the simplest thing that works and add complexity only when it demonstrably helps. Read together, they give you the terms for naming an agent design and the path for building it. The rest of the section follows that vocabulary into production practice, tool design, and dissent.
 
@@ -91,9 +91,9 @@ The preceding entries set out the main positions on agent design and orchestrati
 
 ## The harness
 
-Where the engineering guides describe how to design an agent, harness engineering describes everything around the model that makes it useful in production. The harness includes the tools, memory, context management, orchestration, and verification loops that turn a capable model into a reliable tool. A common shorthand is LangChain's definition: an agent is a model plus a harness. The working claim in this section is that reliability comes from the model-harness system: the harness is where many practical gains are available, but its components are model-specific and can be absorbed as models improve.
+Where the engineering guides describe how to design an agent, harness engineering describes everything around the model that makes it useful in production. The harness includes the tools, memory, context management, orchestration, and verification loops that turn a capable model into a reliable tool. LangChain's definition is a useful shorthand: an agent is a model plus a harness. The working claim in this section is that reliability comes from the model-harness system. The harness is where many practical gains are available, but its components are model-specific and can be absorbed as models improve.
 
-Mitchell Hashimoto's post popularized the term in February 2026, and OpenAI and Anthropic took it up within months. The following sources define the discipline and show what building a harness involves. They close with Anthropic's two posts. Together they bracket the discipline: one predates the term itself, the other shows how much harness design can change an outcome.
+Mitchell Hashimoto's post popularized the term in February 2026, and OpenAI and Anthropic took it up within months. The following sources define the discipline and show what building a harness involves. They close with Anthropic's two posts. Together they show the discipline's range: one predates the term itself, and the other demonstrates how much harness design can change an outcome.
 
 ### My AI Adoption Journey
 
@@ -175,7 +175,7 @@ Anthropic published it on its engineering blog, and the trade press covered it w
 
 ## Evaluation
 
-Evaluation is how harness engineering becomes measurable. The following sources cover how to design agent evaluations, how to compare agents under realistic budgets, how to benchmark long-horizon terminal work, and how to evaluate tool-agent-user interaction.
+Evaluation is how harness engineering becomes measurable. The following sources cover how to design evaluations, compare agents under realistic budgets, benchmark long-horizon terminal work, and evaluate tool-agent-user interaction.
 
 ### AI Agents That Matter
 
@@ -371,7 +371,7 @@ Kimi K2 gives the section an open-weight agentic model. It reports state-of-the-
 
 ## Agent architectures and systems
 
-These sources describe agent architectures and systems: a cognitive architecture for language agents, coding and simulation systems, memory and lifelong-learning designs, and an empirical analysis of why multi-agent systems fail. They close with a simpler pipeline that questions how much of that architecture the work requires.
+These sources describe agent architectures and systems: a cognitive architecture for language agents, coding and simulation systems, memory and lifelong-learning designs, and an empirical analysis of why multi-agent systems fail. They close with a simpler pipeline that tests how much architecture the work actually requires.
 
 ### Cognitive Architectures for Language Agents
 
@@ -439,7 +439,7 @@ Agentless resolved 32% of SWE-bench Lite issues at $0.70 per issue, the best res
 
 ## Safety and governance
 
-These six documents frame how agents are governed, from provider policy to independent and legal frameworks. The first four are provider guidance: OpenAI and Anthropic on production governance and trustworthy practice, Anthropic's Responsible Scaling Policy on frontier development, and OpenAI's Model Spec on model behavior. The _National Institute of Standards and Technology_ (_NIST_) supplies an independent risk vocabulary through its AI Risk Management Framework, and the EU AI Act sets the binding legal baseline. Read together, they are the policy layer around a production agent.
+These six documents frame how agents are governed, from provider policy to independent and legal frameworks. The first four are provider guidance. OpenAI and Anthropic cover production governance and trustworthy practice; Anthropic's Responsible Scaling Policy covers frontier development; and OpenAI's Model Spec covers model behavior. The _National Institute of Standards and Technology_ (_NIST_) supplies an independent risk vocabulary through its AI Risk Management Framework, and the EU AI Act sets the binding legal baseline. Read together, they are the policy layer around a production agent.
 
 ### Practices for Governing Agentic AI Systems
 
@@ -491,7 +491,7 @@ It is the legal baseline that vendor governance documents do not cover. For team
 
 ## Security
 
-Security is the part of production readiness that governance documents cover only at a high level. These sources describe the main agent-specific attack path, the design patterns that constrain it, and a concrete system that enforces those constraints. They close with a threat checklist for review.
+Security is the part of production readiness that governance documents cover only at a high level. These sources describe the main agent-specific attack path, the design patterns that constrain it, and a concrete system that enforces those constraints. They close with a checklist for threat modeling and review.
 
 ### The lethal trifecta for AI agents
 
@@ -527,13 +527,13 @@ It is a checklist rather than an agent-specific design method, but it is a usefu
 
 ## Protocols and standards
 
-Five standards define how agents reach the world beyond their context window. The Model Context Protocol standardizes how an assistant connects to tools and data. The Agent2Agent Protocol standardizes how independent agents discover and coordinate with each other. The Agent Client Protocol standardizes how editors and IDEs drive coding agents. The `AGENTS.md` file defines how a coding agent learns what a codebase requires. Agent Skills define how reusable expertise is packaged so any agent can load and apply it. Where the safety section addresses what agents can do, the standards define how agents connect. Together they provide shared interfaces for agent integration.
+Five standards define how agents reach the world beyond their context window. The Model Context Protocol connects an assistant to tools and data; the Agent2Agent Protocol lets independent agents discover and coordinate with each other; and the Agent Client Protocol connects editors and _integrated development environments_ (_IDEs_) to coding agents. The `AGENTS.md` file defines how a coding agent learns what a codebase requires, and Agent Skills package reusable expertise so any agent can load and apply it. Where the safety section addresses what agents can do, the standards define how agents connect. Together they provide shared interfaces for agent integration.
 
 ### Model Context Protocol
 
 _Anthropic, November 2024._
 
-Anthropic's [Model Context Protocol][mcp] is the open protocol that standardizes how assistants connect to tools, data sources, and services. It uses a client-server architecture. It has become a common standard for agent-tool integration, adopted by OpenAI, Google, and major _integrated development environments_ (_IDEs_). Anthropic donated it to the Agentic AI Foundation, a directed fund under the Linux Foundation, in December 2025. It is stewarded alongside Agent2Agent. The specification defines transports, resource templates, tool annotations, and security boundaries.
+Anthropic's [Model Context Protocol][mcp] is the open protocol that standardizes how assistants connect to tools, data sources, and services. It uses a client-server architecture. It has become a common standard for agent-tool integration, adopted by OpenAI, Google, and major IDEs. Anthropic donated it to the Agentic AI Foundation, a directed fund under the Linux Foundation, in December 2025. It is stewarded alongside Agent2Agent. The specification defines transports, resource templates, tool annotations, and security boundaries.
 
 It is often described as the closest thing agent integration has to a common protocol. Ecosystem adoption has made it one of the main ways agents reach the outside world.
 
@@ -573,7 +573,7 @@ It fills the layer that MCP and A2A leave open. MCP connects an agent to tools a
 
 ## The books
 
-If the papers give the field its immediate ideas, these three books give it a durable foundation. _AI Engineering_ is the practitioner's guide to the full lifecycle of building and running these systems, and it's among the most recommended books in the field. _Artificial Intelligence: A Modern Approach_ is widely considered a standard AI textbook, where the concepts that agents build on get their rigorous treatment. _AI Snake Oil_ is the skeptical account: it separates real advances from claims that do not hold up. Two are for building and understanding; the third is for judgment. All three are intended to outlast any single generation of tools.
+If the papers give the field its immediate ideas, these three books give it a durable foundation. _AI Engineering_ is the practitioner's guide to the full lifecycle of building and running these systems, and it's among the most recommended books in the field. _Artificial Intelligence: A Modern Approach_ is widely considered a standard AI textbook, which treats the concepts that agents build on rigorously. _AI Snake Oil_ is the skeptical account: it separates real advances from claims that do not hold up. Two are for building and understanding. The third is for judgment. All three are intended to outlast any single generation of tools.
 
 ### AI Engineering
 
