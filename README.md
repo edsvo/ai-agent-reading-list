@@ -367,7 +367,7 @@ _Kimi Team, 2025._
 
 The Kimi Team's [Kimi K2: Open Agentic Intelligence][kimi-k2] introduces a mixture-of-experts model with 1 trillion total parameters and 32 billion active parameters. It was pretrained on 15.5 trillion tokens with the MuonClip optimizer, which clips attention logits to keep training stable. Post-training uses a large-scale agentic data synthesis pipeline and a joint reinforcement learning stage in real and synthetic environments.
 
-Kimi K2 gives the section an open-weight agentic model. It reports state-of-the-art results among open non-reasoning models on agentic benchmarks, including 66.1 on τ²-Bench and 65.8 on SWE-bench Verified. It is a useful case study in training a model for tool use rather than treating agentic ability as an emergent side effect.
+Kimi K2 gives the section an open-weight agentic model. The Kimi Team reports state-of-the-art results among open non-reasoning models on agentic benchmarks, including 66.1 on τ²-Bench and 65.8 on SWE-bench Verified. It is a useful case study in training a model for tool use rather than treating agentic ability as an emergent side effect.
 
 ## Agent architectures and systems
 
@@ -609,7 +609,7 @@ Use this rough scale when weighing an entry's claims:
 - **B.** The claim rests on a production case study or a provider-reported benchmark.
 - **C.** The claim comes from a practitioner essay, pattern, or anecdote.
 
-Where a claim depends on a provider's own benchmark or deployment, the entry identifies it as such. Stanford's [Engineering AI Agents][cs329z] course, as of its September 2026 syllabus, assigns more than ten of the sources here. UC Berkeley's [Large Language Model Agents][berkeley-mooc] _massive open online course_ (_MOOC_) assigns five across its tool-use, coding, multi-agent, and safety weeks.
+Where a claim depends on a provider's own benchmark or deployment, the entry identifies it as such. Stanford's [Engineering AI Agents][cs329z] course, as of its Fall 2026 syllabus, assigns more than ten of the sources here. UC Berkeley's [Large Language Model Agents][berkeley-mooc] _massive open online course_ (_MOOC_), as of its Fall 2024 syllabus, assigned five across its overview, coding, robotics, and safety weeks.
 
 ## References
 
