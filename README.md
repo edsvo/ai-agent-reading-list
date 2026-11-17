@@ -203,7 +203,7 @@ The benchmark is designed to measure long-horizon terminal work rather than sing
 
 ## Foundational methods
 
-The following sources begin with two overviews of the field, then move through reasoning, retrieval, tool use, and code-as-reasoning. They are the methods and concepts that agent systems build on.
+The following sources begin with two overviews of the field, and then move through reasoning, retrieval, tool use, and code-as-reasoning. They are the methods and concepts that agent systems build on.
 
 ### LLM Powered Autonomous Agents
 
@@ -295,7 +295,7 @@ This paper is an early example of code-as-reasoning, the pattern behind code-wri
 
 ## Model papers
 
-These papers describe the models that agents depend on. They open with the architecture that started the Transformer era, then move through pretraining and scaling to alignment and reasoning.
+These papers describe the models that agents depend on. They open with the architecture that started the Transformer era, and then move through pretraining and scaling to alignment and reasoning.
 
 ### Attention Is All You Need
 
@@ -327,13 +327,13 @@ _Jordan Hoffmann et al., DeepMind, NeurIPS 2022._
 
 Jordan Hoffmann et al.'s [Chinchilla][chinchilla] shows that most large language models were undertrained relative to their size. By scaling parameters and training data together, it derives compute-optimal training recipes and finds that a 70-billion-parameter model trained on more tokens can outperform a 280-billion-parameter model.
 
-The result reset assumptions about model scaling and became a standard reference for compute-optimal training. It is the natural companion to GPT-3's scaling story: bigger models help, but data and compute allocation matter as much as parameter count.
+The result changed assumptions about model scaling and became a standard reference for compute-optimal training. It is the natural companion to GPT-3's scaling story: bigger models help, but data and compute allocation matter as much as parameter count.
 
 ### Training Language Models to Follow Instructions with Human Feedback
 
 _Long Ouyang et al., OpenAI, NeurIPS 2022._
 
-Long Ouyang et al.'s [Training Language Models to Follow Instructions with Human Feedback][instructgpt] introduces _reinforcement learning from human feedback_ (_RLHF_). RLHF combines supervised fine-tuning, reward modeling, and proximal policy optimization to align models with human intent. It is the method behind ChatGPT and many instruction-tuned models.
+Long Ouyang et al.'s [Training Language Models to Follow Instructions with Human Feedback][instructgpt] introduces _reinforcement learning from human feedback_ (_RLHF_). RLHF combines supervised fine-tuning, reward modeling, and _proximal policy optimization_ (_PPO_) to align models with human intent. It is the method behind ChatGPT and many instruction-tuned models.
 
 This paper turned capable models into instruction-following agents, a key reason that agent behavior is steerable.
 
@@ -341,7 +341,7 @@ This paper turned capable models into instruction-following agents, a key reason
 
 _Rafael Rafailov et al., Stanford, NeurIPS 2023._
 
-Rafael Rafailov et al.'s [Direct Preference Optimization][dpo] (DPO) replaces the reward-modeling stage of RLHF with a direct classification objective on preference pairs. It is simpler and more stable to train than PPO-based RLHF, and it avoids fitting a separate reward model.
+Rafael Rafailov et al.'s [Direct Preference Optimization][dpo] introduces _direct preference optimization_ (_DPO_), a method that replaces the reward-modeling stage of RLHF with a direct classification objective on preference pairs. It is simpler and more stable to train than PPO-based RLHF, and it avoids fitting a separate reward model.
 
 DPO became a common alignment method and a useful complement to InstructGPT's RLHF pipeline. It is the main alternative to read alongside the original RLHF paper when comparing alignment approaches.
 
@@ -369,7 +369,7 @@ These sources describe agent architectures and systems: a cognitive architecture
 
 _Theodore Sumers et al., TMLR, 2024._
 
-Theodore Sumers et al.'s [Cognitive Architectures for Language Agents][coala] (CoALA) proposes a cognitive architecture for language agents, organized around memory modules, action spaces, and a decision-making loop. It separates working memory, episodic memory, semantic memory, and procedural memory, and maps them to agent capabilities.
+Theodore Sumers et al.'s [Cognitive Architectures for Language Agents][coala] introduces _cognitive architectures for language agents_ (_CoALA_), a framework organized around memory modules, action spaces, and a decision-making loop. It separates working memory, episodic memory, semantic memory, and procedural memory. It maps them to agent capabilities.
 
 CoALA gives a vocabulary for comparing agent designs and for reasoning about memory, planning, and action. It is a useful conceptual layer above individual agent systems, and it pairs well with the memory-focused systems in this section.
 
@@ -417,9 +417,9 @@ AutoGen became a common framework for conversation-driven agent orchestration an
 
 _Mert Cemri et al., NeurIPS, 2025._
 
-Mert Cemri et al.'s [Why Do Multi-Agent LLM Systems Fail?][mast] introduces MAST, the Multi-Agent System Failure Taxonomy, built from more than 1,600 annotated execution traces across seven frameworks. It identifies 14 failure modes in three categories: system design, inter-agent misalignment, and task verification.
+Mert Cemri et al.'s [Why Do Multi-Agent LLM Systems Fail?][mast] introduces _MAST_ (_Multi-Agent System Failure Taxonomy_), built from more than 1,600 annotated execution traces across seven frameworks. It identifies 14 failure modes in three categories: system design, inter-agent misalignment, and task verification.
 
-The paper reports failure rates between 41% and 86.7% on the systems it studies, and argues that many failures require structural redesign rather than better prompts. It supplies the empirical failure-mode study that the Anthropic-versus-Cognition debate otherwise lacks.
+The paper reports failure rates between 41% and 86.7% on the systems it studies. It argues that many failures require structural redesign rather than better prompts, and it contributes a systematic failure-mode study to the Anthropic-versus-Cognition debate.
 
 ## Safety and governance
 
@@ -475,7 +475,7 @@ _Luca Beurer-Kellner et al., 2025._
 
 Luca Beurer-Kellner et al.'s [Design Patterns for Securing LLM Agents against Prompt Injections][prompt-injection-patterns] proposes six architectural patterns for agents that handle untrusted input. The patterns include the Action-Selector, Plan-Then-Execute, and Dual LLM designs. Each constrains what untrusted content can influence and trades some utility for security.
 
-The paper is a concrete complement to the lethal-trifecta heuristic: it turns the heuristic into specific architectures. The trade-offs are explicit, and the paper is honest that provable resistance often requires narrowing what the agent can do.
+The paper is a concrete complement to the lethal-trifecta heuristic: it turns the heuristic into specific architectures. The trade-offs are explicit, and the paper acknowledges that provable resistance often requires narrowing what the agent can do.
 
 ### OWASP Top 10 for LLM Applications
 
@@ -545,11 +545,11 @@ It provides a foundation for many concepts agents build on and is often cited as
 
 ## A note on the selection
 
-This is a curated canon, not a systematic survey. Sources were selected from the reading lists of the Stanford and Berkeley courses cited here, recurring citations in provider engineering guides, and practitioner reading lists. Inclusion means a source contributes a distinct idea or is widely relied on; it does not mean every claim in it has been independently replicated.
+This is a curated collection, not a systematic survey. Sources were selected from the reading lists of the Stanford and Berkeley courses cited here, recurring citations in provider engineering guides, and practitioner reading lists. Inclusion means a source contributes a distinct idea or is widely relied on; it does not mean every claim in it has been independently replicated.
 
 Use this rough scale when weighing an entry's claims:
 
-- **A:** The claim is peer-reviewed or independently replicated.
+- **A:** The claim rests on peer-reviewed or independently replicated work.
 - **B:** The claim rests on a production case study or a provider-reported benchmark.
 - **C:** The claim comes from a practitioner essay, pattern, or anecdote.
 
