@@ -175,7 +175,7 @@ Anthropic published it on its engineering blog, and the trade press covered it w
 
 ## Evaluation
 
-Evaluation is how harness engineering becomes measurable. The following sources cover how to design agent evaluations, how to compare agents under realistic budgets, and how to benchmark long-horizon terminal work.
+Evaluation is how harness engineering becomes measurable. The following sources cover how to design agent evaluations, how to compare agents under realistic budgets, how to benchmark long-horizon terminal work, and how to evaluate tool-agent-user interaction.
 
 ### AI Agents That Matter
 
@@ -200,6 +200,14 @@ _Mike A. Merrill et al., ICLR 2026._
 Mike A. Merrill et al.'s [Terminal-Bench][terminal-bench] introduces Terminal-Bench 2.0, a benchmark of 89 hard, realistic tasks in terminal environments. Each task has a unique environment, a human-written solution, and tests for verification. Frontier models and agents score less than 65% on the benchmark.
 
 The benchmark is designed to measure long-horizon terminal work rather than single-turn coding, which makes it a useful complement to SWE-bench. It is also a reminder that benchmark scores depend on the harness: the same model can perform differently under a different agent loop.
+
+### τ²-Bench
+
+_Victor Barres et al., ICML 2026._
+
+Victor Barres et al.'s [τ²-Bench][tau2-bench] evaluates conversational agents in a dual-control environment, where the user as well as the agent can use tools to change a shared world. It models a Telecom support domain as a cooperative, partially observable decision process. It adds a compositional task generator, a user simulator constrained by the environment, and error analysis that separates reasoning failures from communication and coordination failures.
+
+The benchmark fills a gap that single-control benchmarks leave open: many production agents, from technical support to booking, must guide a user through actions rather than act alone. Performance drops sharply when agents move from no-user to dual-control settings, which makes the benchmark a useful measure of the coordination work that agent evaluations often miss.
 
 ## Foundational methods
 
@@ -295,7 +303,7 @@ This paper is an early example of code-as-reasoning, the pattern behind code-wri
 
 ## Model papers
 
-These papers describe the models that agents depend on. They open with the architecture that started the Transformer era, and then move through pretraining and scaling to alignment and reasoning.
+These papers describe the models that agents depend on. They open with the architecture that started the Transformer era, and then move through pretraining and scaling to alignment, reasoning, and agentic training.
 
 ### Attention Is All You Need
 
@@ -361,9 +369,17 @@ DeepSeek-AI's [DeepSeek-R1][deepseek-r1] shows that reinforcement learning alone
 
 The open weights and distillation recipe helped launch a series of open reasoning models, making trained reasoning a common layer beneath agent harnesses.
 
+### Kimi K2
+
+_Kimi Team, 2025._
+
+The Kimi Team's [Kimi K2: Open Agentic Intelligence][kimi-k2] introduces a mixture-of-experts model with 1 trillion total parameters and 32 billion active parameters. It was pretrained on 15.5 trillion tokens with the MuonClip optimizer, which clips attention logits to keep training stable. Post-training uses a large-scale agentic data synthesis pipeline and a joint reinforcement learning stage in real and synthetic environments.
+
+Kimi K2 gives the section a current open-weight agentic model. It reports state-of-the-art results among open non-reasoning models on agentic benchmarks, including 66.1 on τ²-Bench and 65.8 on SWE-bench Verified. It is a useful case study in training a model for tool use rather than treating agentic ability as an emergent side effect.
+
 ## Agent architectures and systems
 
-These sources describe agent architectures and systems: a cognitive architecture for language agents, coding and simulation systems, memory and lifelong-learning designs, multi-agent frameworks, and an empirical analysis of why multi-agent systems fail.
+These sources describe agent architectures and systems: a cognitive architecture for language agents, coding and simulation systems, memory and lifelong-learning designs, multi-agent frameworks, and an empirical analysis of why multi-agent systems fail. They close with a simpler pipeline that questions how much of that architecture the work requires.
 
 ### Cognitive Architectures for Language Agents
 
@@ -421,9 +437,17 @@ Mert Cemri et al.'s [Why Do Multi-Agent LLM Systems Fail?][mast] introduces _MAS
 
 The paper reports failure rates between 41% and 86.7% on the systems it studies. It argues that many failures require structural redesign rather than better prompts, and it contributes a systematic failure-mode study to the Anthropic-versus-Cognition debate.
 
+### Agentless
+
+_Chunqiu Steven Xia et al., FSE 2025._
+
+Chunqiu Steven Xia et al.'s [Agentless][agentless] asks how much of software-engineering agent performance comes from the agent architecture. It replaces the agent loop with a fixed three-phase pipeline: localize the files and code that need changing, generate candidate patches, and validate them with tests. The model does not choose its own actions or operate complex tools.
+
+Agentless resolved 32% of SWE-bench Lite issues at $0.70 per issue, the best result among open-source agents at the time. That makes it the strongest empirical check on agent complexity in this section: it is the baseline to beat before adding another loop or tool.
+
 ## Safety and governance
 
-These four documents frame how providers govern what an agent can do in production. The first two are the providers' practical guidance on governance and on trustworthy practice. Anthropic's Responsible Scaling Policy sets a safety framework for its frontier development. OpenAI's Model Spec is a published behavioral specification for its models. Read together, they are the guardrail layer of a production agent.
+These six documents frame how agents are governed, from provider policy to independent and legal frameworks. The first four are provider guidance: OpenAI and Anthropic on production governance and trustworthy practice, Anthropic's Responsible Scaling Policy on frontier development, and OpenAI's Model Spec on model behavior. NIST's AI Risk Management Framework supplies an independent risk vocabulary, and the EU AI Act sets the binding legal baseline. Read together, they are the policy layer around a production agent.
 
 ### Practices for Governing Agentic AI Systems
 
@@ -457,9 +481,25 @@ OpenAI's [Model Spec][model-spec] is the behavioral constitution for OpenAI mode
 
 It describes the intended guardrails in the model layer, before any agent code is written.
 
+### AI Risk Management Framework
+
+_NIST, 2023; Generative AI Profile, 2024._
+
+The National Institute of Standards and Technology's [AI Risk Management Framework][nist-ai-rmf] is a voluntary framework for managing AI risk across design, development, deployment, and use. It organizes the work into four functions: Govern, Map, Measure, and Manage. The 2024 Generative AI Profile adds risks specific to generative systems, including confabulation, information integrity, and data privacy.
+
+The framework supplies an independent vocabulary for the governance layer that the provider policies in this section describe from a single vendor's point of view. It is widely used as the organizing structure for enterprise AI risk programs.
+
+### EU AI Act
+
+_European Union, 2024._
+
+The [EU AI Act][eu-ai-act] is the European Union's binding regulation for AI systems, organized around risk tiers. It bans a small set of practices, sets obligations for general-purpose models, imposes transparency duties on limited-risk systems, and sets requirements for high-risk uses that include risk management, data governance, human oversight, and post-market monitoring. The obligations for high-risk systems phase in through 2027.
+
+It is the legal baseline that vendor governance documents do not cover. For teams deploying agents in the European Union, it turns parts of the safety discussion into compliance requirements.
+
 ## Security
 
-Security is the part of production readiness that governance documents cover only at a high level. These sources describe the main agent-specific attack path and the design patterns and threat checklists that reduce it.
+Security is the part of production readiness that governance documents cover only at a high level. These sources describe the main agent-specific attack path, the design patterns that constrain it, and a concrete system that enforces those constraints. They close with a threat checklist for review.
 
 ### The lethal trifecta for AI agents
 
@@ -477,6 +517,14 @@ Luca Beurer-Kellner et al.'s [Design Patterns for Securing LLM Agents against Pr
 
 The paper is a concrete complement to the lethal-trifecta heuristic: it turns the heuristic into specific architectures. The trade-offs are explicit, and the paper acknowledges that provable resistance often requires narrowing what the agent can do.
 
+### Defeating Prompt Injections by Design
+
+_Edoardo Debenedetti et al., 2025._
+
+Edoardo Debenedetti et al.'s [Defeating Prompt Injections by Design][camel-prompt-injection] presents CaMeL, a system layer that protects an agent even when the underlying model is vulnerable to prompt injection. CaMeL extracts control and data flow from the trusted user query, so untrusted data retrieved by the model cannot alter the program flow. It adds capabilities that enforce security policies when tools are called, which blocks exfiltration of private data over unauthorized flows. It solves 77% of tasks in [AgentDojo][agentdojo] with provable security, against 84% for an undefended system.
+
+The result is a concrete architecture rather than a checklist, and the utility cost is explicit. It belongs with the design-patterns paper as the system-level answer to the lethal trifecta.
+
 ### OWASP Top 10 for LLM Applications
 
 _OWASP, 2025._
@@ -487,7 +535,7 @@ It is a checklist rather than an agent-specific design method, but it is a usefu
 
 ## Protocols and standards
 
-Four standards define how agents reach the world beyond their context window. The Model Context Protocol standardizes how an assistant connects to tools and data. The Agent2Agent Protocol standardizes how independent agents discover and coordinate with each other. The `AGENTS.md` file defines how a coding agent learns what a codebase requires. Agent Skills define how reusable expertise is packaged so any agent can load and apply it. Where the safety section addresses what agents can do, the standards define how agents connect. Together they provide shared interfaces for agent integration.
+Five standards define how agents reach the world beyond their context window. The Model Context Protocol standardizes how an assistant connects to tools and data. The Agent2Agent Protocol standardizes how independent agents discover and coordinate with each other. The Agent Client Protocol standardizes how editors and IDEs drive coding agents. The `AGENTS.md` file defines how a coding agent learns what a codebase requires. Agent Skills define how reusable expertise is packaged so any agent can load and apply it. Where the safety section addresses what agents can do, the standards define how agents connect. Together they provide shared interfaces for agent integration.
 
 ### Model Context Protocol
 
@@ -523,9 +571,17 @@ The post is also the entry point to the craft of building skills. The standard i
 
 On October 16, 2025, Simon Willison wrote in [Claude Skills are awesome, maybe a bigger deal than MCP][willison-skills] that skills' simplicity outsources the hard parts to the model and its harness. By the time Anthropic published the standard, Microsoft had already adopted Agent Skills in VS Code and GitHub, and Cursor, goose, Amp, and opencode support the format. Skills join MCP and the `AGENTS.md` file as shared interfaces, making reusable capability portable.
 
+### Agent Client Protocol
+
+_Zed Industries, 2025._
+
+The [Agent Client Protocol][acp] standardizes communication between code editors and coding agents. It uses JSON-RPC over standard input and output, and it follows the design of the Language Server Protocol: an editor implements the client once, and any conforming agent can plug in. It supports local and remote agents, streamed responses, and permission requests.
+
+It fills the layer that MCP and A2A leave open. MCP connects an agent to tools and data, A2A connects independent agents, and ACP connects the editor to the agent that works inside it. Zed introduced it with Gemini CLI, and other editors and agents have since adopted it.
+
 ## The books
 
-If the papers give the field its immediate ideas, these two books give it a durable foundation. _AI Engineering_ is the practitioner's guide to the full lifecycle of building and running these systems, and it's among the most recommended books in the field. _Artificial Intelligence: A Modern Approach_ is widely considered a standard AI textbook, where the concepts that agents build on get their rigorous treatment. One is for building; the other is for understanding. Both are intended to outlast any single generation of tools.
+If the papers give the field its immediate ideas, these three books give it a durable foundation. _AI Engineering_ is the practitioner's guide to the full lifecycle of building and running these systems, and it's among the most recommended books in the field. _Artificial Intelligence: A Modern Approach_ is widely considered a standard AI textbook, where the concepts that agents build on get their rigorous treatment. _AI Snake Oil_ is the skeptical account: it separates real advances from claims that do not hold up. Two are for building and understanding; the third is for judgment. All three are intended to outlast any single generation of tools.
 
 ### AI Engineering
 
@@ -542,6 +598,14 @@ _Stuart Russell and Peter Norvig, fourth edition, 2020, Pearson._
 Stuart Russell and Peter Norvig's [Artificial Intelligence: A Modern Approach][aima] is a widely used AI textbook. It covers search, planning, knowledge representation, probabilistic reasoning, reinforcement learning, and natural language processing. The chapters on search, planning, and multi-agent systems remain directly relevant to agent architecture.
 
 It provides a foundation for many concepts agents build on and is often cited as a foundational text.
+
+### AI Snake Oil
+
+_Arvind Narayanan and Sayash Kapoor, Princeton University Press, 2024._
+
+Arvind Narayanan and Sayash Kapoor's [AI Snake Oil][ai-snake-oil] separates genuine advances in AI from claims that do not hold up. It divides the field into three categories: advances in capabilities, current services that may or may not work, and speculative promises about the future. It is sharply critical of predictive systems used for hiring, policing, and criminal risk, and it is skeptical of claims about near-term artificial general intelligence.
+
+The book is the critical counterweight to the capability claims elsewhere in this list, and it pairs naturally with the authors' [AI Agents That Matter][agents-matter]. It gives readers a vocabulary for asking what a system actually predicts and whether the evidence supports the claim.
 
 ## A note on the selection
 
@@ -579,6 +643,7 @@ Where a claim depends on a provider's own benchmark or deployment, the entry ide
 [agents-matter]: https://arxiv.org/abs/2407.01502 "AI Agents That Matter"
 [demystifying-evals]: https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents "Demystifying evals for AI agents"
 [terminal-bench]: https://arxiv.org/abs/2601.11868 "Terminal-Bench: Benchmarking Agents on Hard, Realistic Tasks in Command Line Interfaces"
+[tau2-bench]: https://arxiv.org/abs/2506.07982 "τ2-Bench: Evaluating Conversational Agents in a Dual-Control Environment"
 [weng]: https://lilianweng.github.io/posts/2023-06-23-agent/ "LLM Powered Autonomous Agents"
 [survey]: https://arxiv.org/abs/2308.11432 "A Survey on LLM-based Autonomous Agents"
 [cot]: https://arxiv.org/abs/2201.11903 "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models"
@@ -598,6 +663,7 @@ Where a claim depends on a provider's own benchmark or deployment, the entry ide
 [dpo]: https://arxiv.org/abs/2305.18290 "Direct Preference Optimization: Your Language Model is Secretly a Reward Model"
 [constitutional-ai]: https://arxiv.org/abs/2212.08073 "Constitutional AI: Harmlessness from AI Feedback"
 [deepseek-r1]: https://arxiv.org/abs/2501.12948 "DeepSeek-R1: Incentivizing Reasoning Capability in LLMs via Reinforcement Learning"
+[kimi-k2]: https://arxiv.org/abs/2507.20534 "Kimi K2: Open Agentic Intelligence"
 [coala]: https://arxiv.org/abs/2309.02427 "Cognitive Architectures for Language Agents"
 [swe-agent]: https://arxiv.org/abs/2405.15793 "SWE-agent: Agent-Computer Interfaces Enable Automated Software Engineering"
 [gen-agents]: https://arxiv.org/abs/2304.03442 "Generative Agents: Interactive Simulacra of Human Behavior"
@@ -605,12 +671,17 @@ Where a claim depends on a provider's own benchmark or deployment, the entry ide
 [voyager]: https://arxiv.org/abs/2305.16291 "Voyager: An Open-Ended Embodied Agent with Large Language Models"
 [autogen]: https://arxiv.org/abs/2308.08155 "AutoGen: Enabling Next-Gen LLM Applications via Multi-Agent Conversation"
 [mast]: https://arxiv.org/abs/2503.13657 "Why Do Multi-Agent LLM Systems Fail?"
+[agentless]: https://arxiv.org/abs/2407.01489 "Agentless: Demystifying LLM-based Software Engineering Agents"
 [openai-governance]: https://openai.com/index/practices-for-governing-agentic-ai-systems/ "Practices for Governing Agentic AI Systems"
 [anthropic-trustworthy]: https://www.anthropic.com/research/trustworthy-agents "Trustworthy Agents in Practice"
 [anthropic-rsp]: https://www.anthropic.com/responsible-scaling-policy "Responsible Scaling Policy"
 [model-spec]: https://model-spec.openai.com/ "Model Spec"
+[nist-ai-rmf]: https://www.nist.gov/itl/ai-risk-management-framework "AI Risk Management Framework"
+[eu-ai-act]: https://eur-lex.europa.eu/eli/reg/2024/1689/oj "Regulation (EU) 2024/1689"
 [lethal-trifecta]: https://simonwillison.net/2025/Jun/16/the-lethal-trifecta/ "The lethal trifecta for AI agents"
 [prompt-injection-patterns]: https://arxiv.org/abs/2506.08837 "Design Patterns for Securing LLM Agents against Prompt Injections"
+[camel-prompt-injection]: https://arxiv.org/abs/2503.18813 "Defeating Prompt Injections by Design"
+[agentdojo]: https://arxiv.org/abs/2406.13352 "AgentDojo: A Dynamic Environment to Evaluate Prompt Injection Attacks and Defenses for LLM Agents"
 [owasp-llm-top-10]: https://genai.owasp.org/llm-top-10/ "OWASP Top 10 for LLM Applications"
 [mcp]: https://modelcontextprotocol.io/specification "Model Context Protocol Specification"
 [a2a]: https://a2a-protocol.org "Agent2Agent Protocol"
@@ -620,8 +691,10 @@ Where a claim depends on a provider's own benchmark or deployment, the entry ide
 [skills-creation]: https://agentskills.io/skill-creation/best-practices "Best practices for skill creators"
 [skill-authoring]: https://platform.claude.com/docs/en/agents-and-tools/agent-skills/best-practices "Skill authoring best practices"
 [willison-skills]: https://simonwillison.net/2025/Oct/16/claude-skills/ "Claude Skills are awesome, maybe a bigger deal than MCP"
+[acp]: https://agentclientprotocol.com/ "Agent Client Protocol"
 [huyen-ai]: https://www.oreilly.com/library/view/ai-engineering/9781098166298/ "AI Engineering"
 [aima]: https://aima.cs.berkeley.edu/ "Artificial Intelligence: A Modern Approach"
+[ai-snake-oil]: https://www.aisnakeoil.com/ "AI Snake Oil"
 [cs329z]: https://cs329z.stanford.edu/ "Engineering AI Agents"
 [berkeley-mooc]: https://llmagents-learning.org/f24 "Large Language Model Agents"
 
