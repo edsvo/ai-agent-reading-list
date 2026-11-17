@@ -31,7 +31,7 @@ A few years of concentrated research produced the underlying ideas. The range ru
 
 ## The engineering guides
 
-Two provider guides open this section, covering the same design space in different ways. Anthropic's guide is a taxonomy: three building blocks, five workflow patterns, and a clear line between workflows and agents. The taxonomy is deliberately framework-independent. Workflows fix control flow in code; agents leave control flow to the model. OpenAI's guide is a build guide: three pillars (model, tools, and instructions), orchestration from a single agent to decentralized handoffs, and the Agents SDK. Guardrails place constraints on agent behavior.
+Two provider guides open this section, covering the same design space in different ways. Anthropic's guide is a taxonomy: three building blocks, five workflow patterns, and a clear line between workflows and agents. The taxonomy is framework-independent. Workflows fix control flow in code; agents leave control flow to the model. OpenAI's guide is a build guide: three pillars (model, tools, and instructions), orchestration from a single agent to decentralized handoffs, and the Agents SDK. Guardrails place constraints on agent behavior.
 
 Both give the same advice: start with the simplest thing that works and add complexity only when it demonstrably helps. Read together, they give you the terms for naming an agent design and the path for building it. The rest of the section follows that vocabulary into production practice, tool design, and dissent.
 
@@ -67,13 +67,13 @@ _Prithvi Rajasekaran et al., Anthropic, September 2025._
 
 Anthropic's [Effective context engineering for AI agents][context-engineering] develops _context engineering_: curating and maintaining the tokens that enter an LLM's context window. It builds directly on the Building Effective Agents taxonomy, arguing that context, not prompt wording, is the primary way to steer agent behavior. It treats context as a finite resource subject to [context rot][chroma-context-rot], the decline in response quality as the window fills. It lays out the long-horizon techniques the harness section builds on: compaction (condensing older context), structured note-taking, and subagents that isolate context.
 
-The term predates the post. Walden Yan had used it in [Don't Build Multi-Agents][dont-build-multi-agents] in June 2025, after the phrase had already begun circulating. Tobi Lütke and Andrej Karpathy popularized it in the weeks that followed. Anthropic's post gave it a detailed engineering treatment and a wide audience. It helped establish the context-management vocabulary—compaction, subagent context isolation, just-in-time retrieval—that later agent writing borrows.
+The term predates the post. Walden Yan had used it in Don't Build Multi-Agents in June 2025, after the phrase had already begun circulating. Tobi Lütke and Andrej Karpathy popularized it in the weeks that followed. Anthropic's post gave it a detailed engineering treatment and a wide audience. It helped establish the context-management vocabulary—compaction, subagent context isolation, just-in-time retrieval—that later agent writing borrows.
 
-### Writing effective tools for agents — with agents
+### Writing effective tools for agents—with agents
 
 _Anthropic, September 2025._
 
-Anthropic's [Writing effective tools for agents][writing-tools] treats a tool as a contract between deterministic software and a non-deterministic agent. It argues that tools and MCP servers should be designed for agents rather than for human developers, because an agent may call a tool in unexpected ways or fail to understand it. It recommends prototyping early, building evaluations from realistic multi-step tasks, and using an agent such as Claude Code to refine tools against that evaluation. It distills five principles: choose which tools to implement, namespace them, return meaningful context, optimize responses for token efficiency, and prompt-engineer the descriptions and specifications.
+Anthropic's [Writing effective tools for agents][writing-tools] treats a tool as a contract between deterministic software and a non-deterministic agent. It argues that tools and _Model Context Protocol_ (_MCP_) servers are best designed for agents rather than for human developers, because an agent may call a tool in unexpected ways or fail to understand it. It recommends prototyping early, building evaluations from realistic multi-step tasks, and using an agent such as Claude Code to refine tools against that evaluation. It summarizes five principles: choosing the right tools, namespacing them, returning meaningful context, optimizing token efficiency, and writing the descriptions and specifications as prompts.
 
 The post fills the gap between the design guides and the protocol layer: it is about the tools an agent calls, not the agent loop or the transport. It is the practical companion to MCP in the protocols section.
 
@@ -87,7 +87,7 @@ Anthropic's multi-agent post came out the next day, which Yan noted as coinciden
 
 ### Supporting artifacts
 
-The preceding entries set out the main positions on multi-agent design. Two supporting artifacts round out the design space. The [Building Effective Agents Cookbook][agents-cookbook] holds minimal reference implementations of the workflows that the Anthropic post describes. Dexter Horthy's [12 Factor Agents][12-factor-agents] turns the single-threaded preference into a practical checklist.
+The preceding entries set out the main positions on agent design and orchestration. Two supporting artifacts round out the design space. The [Building Effective Agents Cookbook][agents-cookbook] holds minimal reference implementations of the workflows that the Anthropic post describes. Dexter Horthy's [12 Factor Agents][12-factor-agents] turns the single-threaded preference into a practical checklist.
 
 ## The harness
 
@@ -99,7 +99,7 @@ Mitchell Hashimoto's post popularized the term in February 2026, and OpenAI and 
 
 _Mitchell Hashimoto, mitchellh.com, February 2026._
 
-[My AI Adoption Journey][hashimoto] gave the practice its name. Hashimoto, the HashiCorp co-founder who created Vagrant and Terraform, documents his transition to an AI-first workflow. He distills the recurring principle behind every fix he made: when an agent makes a mistake, build a solution so it doesn't make that mistake again. The buildable solution—documentation, constraints, tools—is the harness. The habit of feeding every agent failure back into that environment is harness engineering.
+[My AI Adoption Journey][hashimoto] gave the practice its name. Hashimoto, the HashiCorp co-founder who created Vagrant and Terraform, documents his transition to an AI-first workflow. He summarizes the recurring principle behind every fix he made: when an agent makes a mistake, build a solution so it doesn't make that mistake again. The buildable solution—documentation, constraints, tools—is the harness. The habit of feeding every agent failure back into that environment is harness engineering.
 
 The term traces back to this post, and later harness engineering writing often treats it as a starting point. The practices themselves build on the earlier guides.
 
@@ -141,15 +141,15 @@ _Andrej Karpathy, gist.github.com, April 2026._
 
 That schema is the `AGENTS.md` or `CLAUDE.md` file telling the agent how to maintain the rest. Karpathy's formulation is that Obsidian is the IDE, the LLM the programmer, and the wiki the codebase. He traces the lineage to Vannevar Bush's Memex (1945). The pattern is a disciplined form of the note-taking that Anthropic's long-running harness depends on.
 
-By November 2026 the gist had more than 5,000 stars and forks. Independent implementations followed in Python and Elixir, and the pattern is packaged as an unofficial Agent Skills skill for Claude Code, Cursor, and Codex. Commenters describe running it for client work, codebase documentation, and design automation. It states a claim that runs through this section: a maintained artifact around the model grows in value. A fresh prompt each time starts from nothing.
+By November 2026, the gist had more than 5,000 stars and forks. Independent implementations followed in Python and Elixir, and the pattern is packaged as an unofficial Agent Skills skill for Claude Code, Cursor, and Codex. Commenters describe running it for client work, codebase documentation, and design automation. It states a claim that runs through this section: a maintained artifact around the model grows in value. A fresh prompt each time starts from nothing.
 
-Three limits are worth naming. Karpathy scopes the pattern to moderate scale, where a plain index file replaces embedding-based retrieval. More pointed, the artifact can be correct and still go unused. One team reported that, after auditing nine sessions, the wiki was read at session start but not mid-task, and agents diagnosed the same failures again even though the wiki already contained a written lesson. One commenter also argues against catching conflicts in the lint pass. Finding a disagreement later means comparing every pair of pages.
+Three limits are worth naming. Karpathy scopes the pattern to moderate scale, where a plain index file replaces embedding-based retrieval. More pointed, the artifact can be correct and still go unused. One team reported that, after auditing nine sessions, the wiki was read at session start but not mid-task. Agents diagnosed the same failures again even though the wiki already contained a written lesson. One commenter also argues against catching conflicts in the lint pass. Finding a disagreement later means comparing every pair of pages.
 
 ### DSPy
 
 _Omar Khattab et al., Stanford NLP, October 2023; ICLR 2024._
 
-[DSPy][dspy] is a programming model that replaces hand-crafted prompt templates with declarative modules and a compiler that optimizes entire pipelines automatically. A DSPy program declares signatures (input-output behavior), composes them into modules (analogous to neural network layers), and uses teleprompters (optimizers) to tune prompts and few-shot examples against a metric. Within minutes of compiling, a few lines of DSPy outperform standard few-shot prompting by over 25% on GPT-3.5 and by 65% on Llama 2 13B Chat, and beat pipelines built with expert-created demonstrations by up to 46%. The framework supports a broad ecosystem covering RAG pipelines, agent loops, and information extraction.
+[DSPy][dspy] is a programming model that replaces hand-crafted prompt templates with declarative modules and a compiler that optimizes entire pipelines automatically. A DSPy program declares signatures (input-output behavior), composes them into modules (analogous to neural network layers), and uses teleprompters (optimizers) to tune prompts and few-shot examples against a metric. Within minutes of compiling, a few lines of DSPy outperform standard few-shot prompting by over 25% on GPT-3.5 and by 65% on Llama 2 13B Chat, and beat pipelines built with expert-created demonstrations by up to 46%. The framework supports a broad ecosystem covering _retrieval-augmented generation_ (_RAG_) pipelines, agent loops, and information extraction.
 
 It is a widely cited source on systematic pipeline optimization, and its programming-not-prompting model is a common way to build maintainable agent systems. DSPy treats compilation as a replacement for manual prompt engineering, the same instinct behind the harness discipline's emphasis on tooling over hand-tuned prompts.
 
@@ -167,7 +167,7 @@ _Prithvi Rajasekaran, Anthropic Labs, March 2026._
 
 Prithvi Rajasekaran's [Harness design for long-running application development][anthropic-harness-design] is a detailed case study in how much harness design can change an outcome. Drawing on generative adversarial networks, Rajasekaran built a three-agent harness: a planner, a generator, and an evaluator.
 
-The planner expands a short prompt into a product spec. The generator implements one feature per sprint, and the evaluator clicks through the running application with Playwright, grading each sprint against hard thresholds. Before any code is written, the generator and evaluator negotiate a sprint contract. On the same task, a solo agent produced an application that launched but was broken at the wiring level. The harnessed run produced a richer, working application. The harness run took about six hours and $200, against 20 minutes and $9 for the solo run.
+The planner expands a short prompt into a product spec. The generator implements one feature per sprint, and the evaluator clicks through the running application with Playwright, grading each sprint against hard thresholds. Before any code is written, the generator and evaluator negotiate a sprint contract. On the same task, a solo agent produced an application that launched but was broken in how its parts were connected. The harnessed run produced a richer, working application. The harness run took about six hours and $200, against 20 minutes and $9 for the solo run.
 
 The post's second half matters as much as the first. With Claude Opus 4.6, Rajasekaran removed the sprint construct, moved the evaluator to a single end-of-run pass, and kept the planner and evaluator. The lesson is that every harness component encodes an assumption about what the model cannot do, and those assumptions go stale. His working rule is to retest the harness against each model release and strip away the components that are no longer needed.
 
@@ -181,7 +181,7 @@ Evaluation is how harness engineering becomes measurable. The following sources 
 
 _Sayash Kapoor et al., TMLR, 2025._
 
-Sayash Kapoor et al.'s [AI Agents That Matter][agents-matter] argues that agent evaluation should account for cost, reproducibility, and real-world utility, not only benchmark accuracy. It critiques common practices such as comparing agents without controlling for cost and reporting results that are hard to reproduce. It proposes a framework for evaluating agents under realistic budgets.
+Sayash Kapoor et al.'s [AI Agents That Matter][agents-matter] argues that agent evaluation needs to account for cost, reproducibility, and real-world utility, not only benchmark accuracy. It critiques common practices such as comparing agents without controlling for cost and reporting results that are hard to reproduce. It proposes a framework for evaluating agents under realistic budgets.
 
 The paper is a useful corrective to leaderboard-driven claims, and Stanford's Engineering AI Agents course assigns it in its first week. Its focus on cost and reproducibility complements the harness literature's emphasis on verification loops.
 
@@ -207,11 +207,11 @@ _Victor Barres et al., ICML 2026._
 
 Victor Barres et al.'s [τ²-Bench][tau2-bench] evaluates conversational agents in a dual-control environment, where the user as well as the agent can use tools to change a shared world. It models a Telecom support domain as a cooperative, partially observable decision process. It adds a compositional task generator, a user simulator constrained by the environment, and error analysis that separates reasoning failures from communication and coordination failures.
 
-The benchmark fills a gap that single-control benchmarks leave open: many production agents, from technical support to booking, must guide a user through actions rather than act alone. Performance drops sharply when agents move from no-user to dual-control settings, which makes the benchmark a useful measure of the coordination work that agent evaluations often miss.
+The benchmark fills a gap that single-control benchmarks leave open. Many production agents, from technical support to booking, must guide a user through actions rather than act alone. Performance drops sharply when agents move from no-user to dual-control settings, which makes the benchmark a useful measure of the coordination work that agent evaluations often miss.
 
 ## Foundational methods
 
-The following sources begin with an overview of the field, and then move through reasoning, retrieval, tool use, and code-as-reasoning. They are the methods and concepts that agent systems build on.
+The following sources begin with an overview of the field and then move through reasoning, retrieval, tool use, and code-as-reasoning. They are the methods and concepts that agent systems build on.
 
 ### LLM Powered Autonomous Agents
 
@@ -275,7 +275,7 @@ _Nelson F. Liu et al., TACL, 2024._
 
 Nelson F. Liu et al.'s [Lost in the Middle][lost-in-the-middle] shows that language models use long contexts unevenly. Information near the beginning and end of the context is recalled more reliably than information in the middle, even for models with large context windows. The effect persists across tasks and model families.
 
-The finding is a primary source for context-engineering practices such as reordering, compaction, and retrieval. It is also a useful counterweight to the assumption that a larger context window removes the need to curate what enters it.
+The finding is a primary source for context-engineering practices such as reordering, compaction, and retrieval. It is also a useful check on the assumption that a larger context window removes the need to curate what enters it.
 
 ### Gorilla
 
@@ -295,7 +295,7 @@ This paper is an early example of code-as-reasoning, the pattern behind code-wri
 
 ## Model papers
 
-These papers describe the models that agents depend on. They open with the architecture that started the Transformer era, and then move through pretraining and scaling to alignment, reasoning, and agentic training.
+These papers describe the models that agents depend on. They open with the architecture that started the Transformer era and then move through pretraining and scaling to alignment, reasoning, and agentic training.
 
 ### Attention Is All You Need
 
@@ -327,7 +327,7 @@ _Jordan Hoffmann et al., DeepMind, NeurIPS 2022._
 
 Jordan Hoffmann et al.'s [Chinchilla][chinchilla] shows that most large language models were undertrained relative to their size. By scaling parameters and training data together, it derives compute-optimal training recipes and finds that a 70-billion-parameter model trained on more tokens can outperform a 280-billion-parameter model.
 
-The result changed assumptions about model scaling and became a standard reference for compute-optimal training. It is the natural companion to GPT-3's scaling story: bigger models help, but data and compute allocation matter as much as parameter count.
+The result changed assumptions about model scaling and became a standard reference for compute-optimal training. It is the natural companion to the GPT-3 scaling story: bigger models help, but data and compute allocation matter as much as parameter count.
 
 ### Training Language Models to Follow Instructions with Human Feedback
 
@@ -335,7 +335,7 @@ _Long Ouyang et al., OpenAI, NeurIPS 2022._
 
 Long Ouyang et al.'s [Training Language Models to Follow Instructions with Human Feedback][instructgpt] introduces _reinforcement learning from human feedback_ (_RLHF_). RLHF combines supervised fine-tuning, reward modeling, and _proximal policy optimization_ (_PPO_) to align models with human intent. It is the method behind ChatGPT and many instruction-tuned models.
 
-This paper turned capable models into instruction-following agents, a key reason that agent behavior is steerable.
+This paper made capable models reliably follow instructions, a key reason that agent behavior is steerable.
 
 ### Direct Preference Optimization
 
@@ -367,7 +367,7 @@ _Kimi Team, 2025._
 
 The Kimi Team's [Kimi K2: Open Agentic Intelligence][kimi-k2] introduces a mixture-of-experts model with 1 trillion total parameters and 32 billion active parameters. It was pretrained on 15.5 trillion tokens with the MuonClip optimizer, which clips attention logits to keep training stable. Post-training uses a large-scale agentic data synthesis pipeline and a joint reinforcement learning stage in real and synthetic environments.
 
-Kimi K2 gives the section a current open-weight agentic model. It reports state-of-the-art results among open non-reasoning models on agentic benchmarks, including 66.1 on τ²-Bench and 65.8 on SWE-bench Verified. It is a useful case study in training a model for tool use rather than treating agentic ability as an emergent side effect.
+Kimi K2 gives the section an open-weight agentic model. It reports state-of-the-art results among open non-reasoning models on agentic benchmarks, including 66.1 on τ²-Bench and 65.8 on SWE-bench Verified. It is a useful case study in training a model for tool use rather than treating agentic ability as an emergent side effect.
 
 ## Agent architectures and systems
 
@@ -387,7 +387,7 @@ _John Yang et al., Princeton, NeurIPS 2024._
 
 John Yang et al.'s [SWE-agent][swe-agent] introduces the agent-computer interface, the boundary through which an agent perceives and acts on a computer. It gives an agent a purpose-built shell for viewing, editing, and testing files, and many coding agents have adopted that design. SWE-bench, the software engineering benchmark it was built for, is a widely used measure for evaluating them.
 
-The name has since spread beyond software engineering, and later work on GUI and computer-use agents adopts it for the same purpose.
+The name has since spread beyond software engineering, and later work on _graphical user interface_ (_GUI_) and computer-use agents adopts it for the same purpose.
 
 ### OpenHands
 
@@ -439,7 +439,7 @@ Agentless resolved 32% of SWE-bench Lite issues at $0.70 per issue, the best res
 
 ## Safety and governance
 
-These six documents frame how agents are governed, from provider policy to independent and legal frameworks. The first four are provider guidance: OpenAI and Anthropic on production governance and trustworthy practice, Anthropic's Responsible Scaling Policy on frontier development, and OpenAI's Model Spec on model behavior. NIST's AI Risk Management Framework supplies an independent risk vocabulary, and the EU AI Act sets the binding legal baseline. Read together, they are the policy layer around a production agent.
+These six documents frame how agents are governed, from provider policy to independent and legal frameworks. The first four are provider guidance: OpenAI and Anthropic on production governance and trustworthy practice, Anthropic's Responsible Scaling Policy on frontier development, and OpenAI's Model Spec on model behavior. The _National Institute of Standards and Technology_ (_NIST_) supplies an independent risk vocabulary through its AI Risk Management Framework, and the EU AI Act sets the binding legal baseline. Read together, they are the policy layer around a production agent.
 
 ### Practices for Governing Agentic AI Systems
 
@@ -477,15 +477,15 @@ It describes the intended guardrails in the model layer, before any agent code i
 
 _NIST, 2023; Generative AI Profile, 2024._
 
-The National Institute of Standards and Technology's [AI Risk Management Framework][nist-ai-rmf] is a voluntary framework for managing AI risk across design, development, deployment, and use. It organizes the work into four functions: Govern, Map, Measure, and Manage. The 2024 Generative AI Profile adds risks specific to generative systems, including confabulation, information integrity, and data privacy.
+NIST's [AI Risk Management Framework][nist-ai-rmf] is a voluntary framework for managing AI risk across design, development, deployment, and use. It organizes the work into four functions: Govern, Map, Measure, and Manage. The 2024 Generative AI Profile adds risks specific to generative systems, including hallucination, information integrity, and data privacy.
 
-The framework supplies an independent vocabulary for the governance layer that the provider policies in this section describe from a single vendor's point of view. It is widely used as the organizing structure for enterprise AI risk programs.
+The framework supplies an independent vocabulary for the governance layer that the provider policies describe from a single vendor's point of view. It is widely used as the organizing structure for enterprise AI risk programs.
 
 ### EU AI Act
 
 _European Union, 2024._
 
-The [EU AI Act][eu-ai-act] is the European Union's binding regulation for AI systems, organized around risk tiers. It bans a small set of practices, sets obligations for general-purpose models, imposes transparency duties on limited-risk systems, and sets requirements for high-risk uses that include risk management, data governance, human oversight, and post-market monitoring. The obligations for high-risk systems phase in through 2027.
+The [EU AI Act][eu-ai-act] is the European Union's binding regulation for AI systems, organized around risk tiers. It bans a small set of practices, sets obligations for general-purpose models, and imposes transparency duties on limited-risk systems. For high-risk uses, it sets requirements that include risk management, data governance, human oversight, and post-market monitoring. The obligations for high-risk systems phase in through 2027.
 
 It is the legal baseline that vendor governance documents do not cover. For teams deploying agents in the European Union, it turns parts of the safety discussion into compliance requirements.
 
@@ -507,7 +507,7 @@ _Luca Beurer-Kellner et al., 2025._
 
 Luca Beurer-Kellner et al.'s [Design Patterns for Securing LLM Agents against Prompt Injections][prompt-injection-patterns] proposes six architectural patterns for agents that handle untrusted input. The patterns include the Action-Selector, Plan-Then-Execute, and Dual LLM designs. Each constrains what untrusted content can influence and trades some utility for security.
 
-The paper is a concrete complement to the lethal-trifecta heuristic: it turns the heuristic into specific architectures. The trade-offs are explicit, and the paper acknowledges that provable resistance often requires narrowing what the agent can do.
+The paper is a concrete complement to the lethal-trifecta heuristic: it turns the heuristic into specific architectures. The trade-offs are explicit, and the authors acknowledge that provable resistance often requires narrowing what the agent can do.
 
 ### Defeating Prompt Injections by Design
 
@@ -541,9 +541,9 @@ It is often described as the closest thing agent integration has to a common pro
 
 _Google, April 2025._
 
-Google's [Agent2Agent Protocol][a2a] is an open protocol for communication between independent agents. Each agent publishes an _Agent Card_, a machine-readable description of its skills and endpoints. Client agents delegate tasks through a defined lifecycle with streaming updates. It launched with more than fifty partners and, by August 2026, had drawn support from more than 150 organizations.
+Google's [_Agent2Agent Protocol_ (_A2A_)][a2a] is an open protocol for communication between independent agents. Each agent publishes an _Agent Card_, a machine-readable description of its skills and endpoints. Client agents delegate tasks through a defined lifecycle with streaming updates. It launched with more than fifty partners and, by August 2026, had drawn support from more than 150 organizations.
 
-In June 2025, Google donated the protocol to the Linux Foundation, where Amazon Web Services, Cisco, Microsoft, Salesforce, SAP, and ServiceNow steward it under neutral governance. The protocol reached a stable v1.0 in March 2026. In August 2026 it joined the Agentic AI Foundation as a Growth Stage project alongside the Model Context Protocol and the `AGENTS.md` file. It fills the layer MCP does not: where MCP connects an agent to tools and data, A2A lets agents discover each other and hand work across frameworks and organizational boundaries.
+In June 2025, Google donated the protocol to the Linux Foundation, where Amazon Web Services, Cisco, Microsoft, Salesforce, SAP, and ServiceNow steward it under neutral governance. The protocol reached a stable v1.0 in March 2026. In August 2026, it joined the Agentic AI Foundation as a Growth Stage project alongside the Model Context Protocol and the `AGENTS.md` file. It fills the layer MCP does not: where MCP connects an agent to tools and data, A2A lets agents discover each other and hand work across frameworks and organizational boundaries.
 
 ### The `AGENTS.md` file
 
@@ -557,7 +557,7 @@ It's a convention for telling an agent how a specific codebase works, the file t
 
 _Barry Zhang, Keith Lazuka, and Mahesh Murag, Anthropic, October 2025._
 
-Anthropic's [Equipping agents for the real world with Agent Skills][agent-skills] introduces _Agent Skills_: folders of instructions, scripts, and resources that an agent discovers and loads on demand. A skill centers on a `SKILL.md` file whose metadata header carries a name and description. The format rests on progressive disclosure: metadata loads at startup, the body loads when a task triggers the skill, and bundled references and executable scripts load only as needed. Scripts offload deterministic work from token generation to code. In December 2025, Anthropic published the [Agent Skills specification][skills-spec] as an open standard.
+Anthropic's [Equipping agents for the real world with Agent Skills][agent-skills] introduces _Agent Skills_: folders of instructions, scripts, and resources that an agent discovers and loads on demand. A skill centers on a `SKILL.md` file whose metadata header carries a name and description. The format rests on progressive disclosure. Metadata loads at startup, the body loads when a task triggers the skill, and bundled references and executable scripts load only as needed. Scripts offload deterministic work from token generation to code. In December 2025, Anthropic published the [Agent Skills specification][skills-spec] as an open standard.
 
 The post is also the entry point to the craft of building skills. The standard includes its own authoring guidance, [Best practices for skill creators][skills-creation]. Anthropic's [Skill authoring best practices][skill-authoring] is a working reference for practitioners writing skills that trigger reliably and stay within context budgets. The skill-authoring discipline matches the preceding engineering guides: start from evaluation, structure for scale, and iterate against how the agent actually uses the skill. Anthropic's `skill-creator` tooling extends the same rigor to skill authoring, adding testing and benchmarking for skills.
 
@@ -567,7 +567,7 @@ On October 16, 2025, Simon Willison wrote in [Claude Skills are awesome, maybe a
 
 _Zed Industries, 2025._
 
-The [Agent Client Protocol][acp] standardizes communication between code editors and coding agents. It uses JSON-RPC over standard input and output, and it follows the design of the Language Server Protocol: an editor implements the client once, and any conforming agent can plug in. It supports local and remote agents, streamed responses, and permission requests.
+The [_Agent Client Protocol_ (_ACP_)][acp] standardizes communication between code editors and coding agents. It uses JSON-RPC over standard input and output, and it follows the design of the Language Server Protocol: an editor implements the client once, and any conforming agent can plug in. It supports local and remote agents, streamed responses, and permission requests.
 
 It fills the layer that MCP and A2A leave open. MCP connects an agent to tools and data, A2A connects independent agents, and ACP connects the editor to the agent that works inside it. Zed introduced it with Gemini CLI, and other editors and agents have since adopted it.
 
@@ -595,9 +595,9 @@ It provides a foundation for many concepts agents build on and is often cited as
 
 _Arvind Narayanan and Sayash Kapoor, Princeton University Press, 2024._
 
-Arvind Narayanan and Sayash Kapoor's [AI Snake Oil][ai-snake-oil] separates genuine advances in AI from claims that do not hold up. It divides the field into three categories: advances in capabilities, current services that may or may not work, and speculative promises about the future. It is sharply critical of predictive systems used for hiring, policing, and criminal risk, and it is skeptical of claims about near-term artificial general intelligence.
+Arvind Narayanan and Sayash Kapoor's [AI Snake Oil][ai-snake-oil] separates genuine advances in AI from claims that do not hold up. It divides the field into three categories: advances in capabilities, current services that may or may not work, and speculative promises about the future. The authors are sharply critical of predictive systems used for hiring, policing, and criminal risk. They are also skeptical of claims about near-term artificial general intelligence.
 
-The book is the critical counterweight to the capability claims elsewhere in this list, and it pairs naturally with the authors' [AI Agents That Matter][agents-matter]. It gives readers a vocabulary for asking what a system actually predicts and whether the evidence supports the claim.
+The book is the critical counterpoint to the capability claims elsewhere in this list, and it pairs naturally with the authors' [AI Agents That Matter][agents-matter]. It gives readers a vocabulary for asking what a system actually predicts and whether the evidence supports the claim.
 
 ## A note on the selection
 
@@ -605,9 +605,9 @@ This is a curated collection, not a systematic survey. Sources were selected fro
 
 Use this rough scale when weighing an entry's claims:
 
-- **A:** The claim rests on peer-reviewed or independently replicated work.
-- **B:** The claim rests on a production case study or a provider-reported benchmark.
-- **C:** The claim comes from a practitioner essay, pattern, or anecdote.
+- **A.** The claim rests on peer-reviewed or independently replicated work.
+- **B.** The claim rests on a production case study or a provider-reported benchmark.
+- **C.** The claim comes from a practitioner essay, pattern, or anecdote.
 
 Where a claim depends on a provider's own benchmark or deployment, the entry identifies it as such. Stanford's [Engineering AI Agents][cs329z] course, as of its September 2026 syllabus, assigns more than ten of the sources here. UC Berkeley's [Large Language Model Agents][berkeley-mooc] _massive open online course_ (_MOOC_) assigns five across its tool-use, coding, multi-agent, and safety weeks.
 
@@ -619,7 +619,7 @@ Where a claim depends on a provider's own benchmark or deployment, the entry ide
 [anthropic-multi-agent]: https://www.anthropic.com/engineering/multi-agent-research-system "How we built our multi-agent research system"
 [context-engineering]: https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents "Effective context engineering for AI agents"
 [chroma-context-rot]: https://research.trychroma.com/context-rot "Context Rot: How Increasing Input Tokens Impacts LLM Performance"
-[writing-tools]: https://www.anthropic.com/engineering/writing-tools-for-agents "Writing effective tools for agents — with agents"
+[writing-tools]: https://www.anthropic.com/engineering/writing-tools-for-agents "Writing effective tools for agents—with agents"
 [dont-build-multi-agents]: https://cognition.com/blog/dont-build-multi-agents "Don't Build Multi-Agents"
 [multi-agents-working]: https://cognition.com/blog/multi-agents-working "Multi-Agents: What's Actually Working"
 [agents-cookbook]: https://github.com/anthropics/claude-cookbooks/tree/main/patterns/agents "Building Effective Agents Cookbook"
