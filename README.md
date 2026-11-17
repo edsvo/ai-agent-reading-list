@@ -1,6 +1,6 @@
 # AI agent reading list
 
-_A curated reading list for AI agents._
+_A curated reading list for engineers building AI agents, with an emphasis on coding agents._
 
 Last reviewed November 17, 2026.
 
