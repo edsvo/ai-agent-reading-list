@@ -11,7 +11,7 @@ The list opens with the practical design guides from Anthropic and OpenAI, which
 The later sections cover the ideas and constraints that building agents depends on: reasoning, self-improvement, tool use, and memory, along with the model papers and agent systems that put those ideas into practice. Evaluation and security become essential the moment agents connect to production systems, and governance documents define the surrounding policy layer. Protocols connect agents to tools, data, codebases, and packaged expertise, and a few books give the field a durable foundation.
 
 > [!NOTE]
-> Compiled with AI assistance and reviewed by the author, [@edsvo](https://github.com/edsvo). Verify claims against the linked sources before relying on them.
+> Compiled with AI assistance and reviewed by the author, [@edsvo](https://github.com/edsvo). Verify claims against the linked sources before relying on them. [A note on the selection](#a-note-on-the-selection) defines a rough scale for weighing each entry's claims.
 
 ## Contents
 
@@ -28,6 +28,7 @@ The later sections cover the ideas and constraints that building agents depends 
 - [The books](#the-books)
 - [A note on the selection](#a-note-on-the-selection)
 - [References](#references)
+- [License](#license)
 
 ## The engineering guides
 
@@ -141,13 +142,13 @@ _Andrej Karpathy, gist.github.com, April 2026._
 
 That schema is the `AGENTS.md` or `CLAUDE.md` file telling the agent how to maintain the rest. Karpathy's formulation is that Obsidian is the IDE, the LLM the programmer, and the wiki the codebase. He traces the lineage to Vannevar Bush's Memex (1945). The pattern is a disciplined form of the note-taking that Anthropic's long-running harness depends on.
 
-By November 2026, the gist had more than 5,000 stars and forks. Independent implementations followed in Python and Elixir, and the pattern is packaged as an unofficial Agent Skills skill for Claude Code, Cursor, and Codex. Commenters describe running it for client work, codebase documentation, and design automation. It states a claim that runs through this section: a maintained artifact around the model grows in value. A fresh prompt each time starts from nothing.
+By November 2026, the gist had more than 5,000 stars and forks. Independent implementations followed in Python and Elixir, and the pattern is packaged as an unofficial Agent Skills skill for Claude Code, Cursor, and Codex. Commenters describe running it for client work, codebase documentation, and research corpora. It states a claim that runs through this section: a maintained artifact around the model grows in value. A fresh prompt each time starts from nothing.
 
-Three limits are worth naming. Karpathy scopes the pattern to moderate scale, where a plain index file replaces embedding-based retrieval. More pointed, the artifact can be correct and still go unused. One team reported that, after auditing nine sessions, the wiki was read at session start but not mid-task. Agents diagnosed the same failures again even though the wiki already contained a written lesson. One commenter also argues against catching conflicts in the lint pass. Finding a disagreement later means comparing every pair of pages.
+Three limits are worth naming. Karpathy scopes the pattern to moderate scale, where a plain index file replaces embedding-based retrieval. More pointed, the artifact can be correct and still go unused. One commenter ran a small controlled experiment on whether a saved decision carries into the next coding session. Written to the wiki alone, it carried in 0 of 8 runs. Only adding prompt excerpts and an edit-time rule gate brought the figure to 8 of 8. A lesson that is not surfaced where the agent decides changes nothing. One commenter also argues that truth maintenance, not drafting, is the hard part. Models fail quietly at updating pages and flagging contradictions, so stale claims and false consistency can accumulate without being obvious.
 
 ### DSPy
 
-_Omar Khattab et al., Stanford NLP, October 2023; ICLR 2024._
+_Omar Khattab et al., Stanford NLP, ICLR 2024._
 
 [DSPy][dspy] is a programming model that replaces hand-crafted prompt templates with declarative modules and a compiler that optimizes entire pipelines automatically. A DSPy program declares signatures (input-output behavior), composes them into modules (analogous to neural network layers), and uses teleprompters (optimizers) to tune prompts and few-shot examples against a metric. Within minutes of compiling, a few lines of DSPy outperform standard few-shot prompting by over 25% on GPT-3.5 and by 65% on Llama 2 13B Chat, and beat pipelines built with expert-created demonstrations by up to 46%. The framework supports a broad ecosystem covering _retrieval-augmented generation_ (_RAG_) pipelines, agent loops, and information extraction.
 
@@ -257,7 +258,7 @@ It remains a key source on planning and search-intensive reasoning and on the ar
 
 _Noah Shinn et al., Northeastern and Princeton, NeurIPS 2023._
 
-Noah Shinn et al.'s [Reflexion][reflexion] introduces verbal reinforcement learning. Agents reflect on failures in natural language and store the reflections in episodic memory. They improve on subsequent attempts without weight updates. On HumanEval the agents reach 91% `pass@1`, the share of problems their first generated solution solves. They reach 97% success on ALFWorld, well above the ReAct baseline.
+Noah Shinn et al.'s [Reflexion][reflexion] introduces _verbal reinforcement learning_. Agents reflect on failures in natural language and store the reflections in episodic memory. They improve on subsequent attempts without weight updates. On HumanEval the agents reach 91% `pass@1`, the share of problems their first generated solution solves. They reach 97% success on ALFWorld, well above the ReAct baseline.
 
 Reflexion made self-improvement through reflection a common pattern in agent harnesses.
 
@@ -357,13 +358,13 @@ Constitutional AI made written behavior rules a central mechanism for alignment 
 
 _DeepSeek-AI, January 2025._
 
-DeepSeek-AI's [DeepSeek-R1][deepseek-r1] shows that reinforcement learning alone can produce reasoning. Its first experiment, DeepSeek-R1-Zero, trains a base model with no labeled examples, and behaviors such as verification, reflection, and backtracking emerge on their own. The released model adds a small cold-start dataset and a multi-stage pipeline. It matches OpenAI's o1 on math, code, and general reasoning benchmarks, scoring 79.8% `pass@1` on AIME 2024 against o1's 79.2%.
+DeepSeek-AI's [DeepSeek-R1][deepseek-r1] shows that reinforcement learning alone can produce reasoning. Its first experiment, DeepSeek-R1-Zero, trains a base model with no labeled examples, and behaviors such as verification, reflection, and backtracking emerge on their own. The released model adds a small cold-start dataset and a multi-stage pipeline. It matches OpenAI's o1 on math, code, and general reasoning benchmarks, scoring 79.8% `pass@1` on AIME 2024 (the American Invitational Mathematics Examination) against 79.2% for o1.
 
 The open weights and distillation recipe helped launch a series of open reasoning models, making trained reasoning a common layer beneath agent harnesses.
 
 ### Kimi K2
 
-_Kimi Team, 2025._
+_Kimi Team, July 2025._
 
 The Kimi Team's [Kimi K2: Open Agentic Intelligence][kimi-k2] introduces a mixture-of-experts model with 1 trillion total parameters and 32 billion active parameters. It was pretrained on 15.5 trillion tokens with the MuonClip optimizer, which clips attention logits to keep training stable. Post-training uses a large-scale agentic data synthesis pipeline and a joint reinforcement learning stage in real and synthetic environments.
 
@@ -385,7 +386,7 @@ CoALA gives a vocabulary for comparing agent designs and for reasoning about mem
 
 _John Yang et al., Princeton, NeurIPS 2024._
 
-John Yang et al.'s [SWE-agent][swe-agent] introduces the agent-computer interface, the boundary through which an agent perceives and acts on a computer. It gives an agent a purpose-built shell for viewing, editing, and testing files, and many coding agents have adopted that design. SWE-bench, the software engineering benchmark it was built for, is a widely used measure for evaluating them.
+John Yang et al.'s [SWE-agent][swe-agent] introduces the _agent-computer interface_, the boundary through which an agent perceives and acts on a computer. It gives an agent a purpose-built shell for viewing, editing, and testing files, and many coding agents have adopted that design. SWE-bench, the software engineering benchmark it was built for, is a widely used measure for evaluating them.
 
 The name has since spread beyond software engineering, and later work on _graphical user interface_ (_GUI_) and computer-use agents adopts it for the same purpose.
 
@@ -503,7 +504,7 @@ The post is a useful threat-model heuristic rather than a complete defense. Its 
 
 ### Design Patterns for Securing LLM Agents against Prompt Injections
 
-_Luca Beurer-Kellner et al., 2025._
+_Luca Beurer-Kellner et al., June 2025._
 
 Luca Beurer-Kellner et al.'s [Design Patterns for Securing LLM Agents against Prompt Injections][prompt-injection-patterns] proposes six architectural patterns for agents that handle untrusted input. The patterns include the Action-Selector, Plan-Then-Execute, and Dual LLM designs. Each constrains what untrusted content can influence and trades some utility for security.
 
@@ -511,7 +512,7 @@ The paper is a concrete complement to the lethal-trifecta heuristic: it turns th
 
 ### Defeating Prompt Injections by Design
 
-_Edoardo Debenedetti et al., 2025._
+_Edoardo Debenedetti et al., March 2025._
 
 Edoardo Debenedetti et al.'s [Defeating Prompt Injections by Design][camel-prompt-injection] presents CaMeL, a system layer that protects an agent even when the underlying model is vulnerable to prompt injection. CaMeL extracts control and data flow from the trusted user query, so untrusted data retrieved by the model cannot alter the program flow. It adds capabilities that enforce security policies when tools are called, which blocks exfiltration of private data over unauthorized flows. It solves 77% of tasks in [AgentDojo][agentdojo] with provable security, against 84% for an undefended system.
 
@@ -549,7 +550,7 @@ In June 2025, Google donated the protocol to the Linux Foundation, where Amazon 
 
 _OpenAI, August 2025._
 
-The [`AGENTS.md` file][agents-md] is a lightweight convention for repository-level instructions that coding agents can discover and follow. It covers conventions, architecture decisions, testing requirements, and workflows. It's supported by Cursor, Windsurf, GitHub Copilot, and other agentic coding tools. Claude Code can read it too, but only when no `CLAUDE.md` or `CLAUDE.local.md` file is present, unless the project instructions setting is changed to load both. Reading the `AGENTS.md` file directly requires v2.1.277 or later.
+The [`AGENTS.md` file][agents-md] is a lightweight convention for repository-level instructions that coding agents can discover and follow. It covers conventions, architecture decisions, testing requirements, and workflows. It's supported by Cursor, Windsurf, GitHub Copilot, and other agentic coding tools. OpenAI contributed it to the Agentic AI Foundation as a founding project in December 2025, alongside the Model Context Protocol and Block's goose. Claude Code can read it too, but only when no `CLAUDE.md` or `CLAUDE.local.md` file is present, unless the project instructions setting is changed to load both. Reading the `AGENTS.md` file directly requires v2.1.277 or later.
 
 It's a convention for telling an agent how a specific codebase works, the file that makes those instructions discoverable to agents.
 
@@ -561,11 +562,11 @@ Anthropic's [Equipping agents for the real world with Agent Skills][agent-skills
 
 The post is also the entry point to the craft of building skills. The standard includes its own authoring guidance, [Best practices for skill creators][skills-creation]. Anthropic's [Skill authoring best practices][skill-authoring] is a working reference for practitioners writing skills that trigger reliably and stay within context budgets. The skill-authoring discipline matches the preceding engineering guides: start from evaluation, structure for scale, and iterate against how the agent actually uses the skill. Anthropic's `skill-creator` tooling extends the same rigor to skill authoring, adding testing and benchmarking for skills.
 
-On October 16, 2025, Simon Willison wrote in [Claude Skills are awesome, maybe a bigger deal than MCP][willison-skills] that skills' simplicity outsources the hard parts to the model and its harness. By the time Anthropic published the standard, Microsoft had already adopted Agent Skills in VS Code and GitHub, and Cursor, goose, Amp, and opencode support the format. Skills join MCP and the `AGENTS.md` file as shared interfaces, making reusable capability portable.
+On October 16, 2025, Simon Willison wrote in [Claude Skills are awesome, maybe a bigger deal than MCP][willison-skills] that skills' simplicity outsources the hard parts to the model and its harness. By the time Anthropic published the standard, Microsoft had already adopted Agent Skills in VS Code and GitHub, and Cursor, goose, Amp, and opencode support the format. In October 2026, Anthropic donated the standard to the Agentic AI Foundation, which already stewards MCP, A2A, and the `AGENTS.md` file. Skills join those projects as shared interfaces, making reusable capability portable.
 
 ### Agent Client Protocol
 
-_Zed Industries, 2025._
+_Zed Industries, August 2025._
 
 The [_Agent Client Protocol_ (_ACP_)][acp] standardizes communication between code editors and coding agents. It uses JSON-RPC over standard input and output, and it follows the design of the Language Server Protocol: an editor implements the client once, and any conforming agent can plug in. It supports local and remote agents, streamed responses, and permission requests.
 
@@ -635,7 +636,7 @@ Where a claim depends on a provider's own benchmark or deployment, the entry ide
 [agents-matter]: https://arxiv.org/abs/2407.01502 "AI Agents That Matter"
 [demystifying-evals]: https://www.anthropic.com/engineering/demystifying-evals-for-ai-agents "Demystifying evals for AI agents"
 [terminal-bench]: https://arxiv.org/abs/2601.11868 "Terminal-Bench: Benchmarking Agents on Hard, Realistic Tasks in Command Line Interfaces"
-[tau2-bench]: https://arxiv.org/abs/2506.07982 "τ2-Bench: Evaluating Conversational Agents in a Dual-Control Environment"
+[tau2-bench]: https://arxiv.org/abs/2506.07982 "τ²-Bench: Evaluating Conversational Agents in a Dual-Control Environment"
 [weng]: https://lilianweng.github.io/posts/2023-06-23-agent/ "LLM Powered Autonomous Agents"
 [cot]: https://arxiv.org/abs/2201.11903 "Chain-of-Thought Prompting Elicits Reasoning in Large Language Models"
 [self-consistency]: https://arxiv.org/abs/2203.11171 "Self-Consistency Improves Chain of Thought Reasoning in Language Models"
